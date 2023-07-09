@@ -1,0 +1,27 @@
+{
+    "name": "rpms/rpms",
+    "description": "RPMS PROJECT",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "RPMS\\APP\\": "app/",
+            "RPMS\\APP\\Log\\": "app/log/",
+            "RPMS\\APP\\Payment\\": "app/payment/",
+            "RPMS\\APP\\Security\\": "app/security/",
+            "RPMS\\APP\\Util\\": "app/util/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Vincent Kusa",
+            "email": "vincentkusa170203@gmail.com"
+        }
+    ],
+    "require": {
+        "nesbot/carbon": "^2.68",
+        "monolog/monolog": "^3.4",
+        "vlucas/phpdotenv": "^5.5",
+        "bramus/router": "~1.6",
+        "jenssegers/blade": "^1.4"
+    }
+}
