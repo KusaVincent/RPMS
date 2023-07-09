@@ -14,7 +14,7 @@ use RPMS\APP\Log\SystemLog;
 use RPMS\APP\Payment\Mpesa;
 use RPMS\APP\Util\PhoneNumber;
 
-$phoneNumber = PhoneNumber::format('0798749323');
+$phoneNumber = PhoneNumber::format('');
 
 
 if ($phoneNumber === false) {
@@ -28,12 +28,7 @@ if ($phoneNumber === false) {
 }
 
 $samplePaymentData = [
-    'amount'            => 1,
-    'businessShortCode' => '174379',
-    'phoneNumber'       => $phoneNumber,
-    'description'       => 'TEST PAYBILL',
-    'accountReference'  => 'Rentals Konekt',
-    'passKey'           => 'bfb279f9aa9bdbcf158e97dd71a467cd2e0c893059b10f78e6b72ada1ed2c919'
+    ...
 ];
 
 $mpesa = new Mpesa('Mbktov5dSAHoBqc3yAAewzWKwcRD1sWR', 'E74GuudetmaLzJmu');
