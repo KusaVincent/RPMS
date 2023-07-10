@@ -3,8 +3,8 @@ namespace RPMS\APP\Util;
 
 use RPMS\APP\Log\SystemLog;
 
-class Curl {
-   
+class Curl
+{
     public static function call(SystemLog $systemLog, string $url, array $curlHeader, string $methodFor, ?string $dataString = null): string | bool
     {
         $curl = curl_init();
@@ -12,7 +12,7 @@ class Curl {
         curl_setopt($curl, CURLOPT_URL, $url);
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($curl, CURLOPT_HTTPHEADER, $curlHeader);
-    
+
         switch ($methodFor) {
             case 'token':
                 curl_setopt($curl, CURLOPT_HEADER, false);
@@ -25,7 +25,7 @@ class Curl {
                 curl_setopt($curl, CURLOPT_HEADER, false);
                 break;
         }
-    
+
         $curlResponse = curl_exec($curl);
 
         if ($curlResponse === false) {
@@ -37,7 +37,7 @@ class Curl {
             } catch (\Exception $e) {
                 SystemLog::log('curl', 'error', $e->getMessage());
             }
-            
+
             throw new \Exception("cURL Error: " . $error);
         }
 
@@ -53,7 +53,7 @@ class Curl {
 
             throw new \Exception("HTTP Error: " . $httpCode);
         }
-    
+
         return $curlResponse;
     }
 }

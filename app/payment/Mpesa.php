@@ -64,7 +64,7 @@ class Mpesa
             'AccountReference'  => $stkValues['accountReference'],
             'PartyB'            => $stkValues['businessShortCode'],
             'BusinessShortCode' => $stkValues['businessShortCode'],
-            'CallBackURL'       => $_ENV['CALLBACK_URL'] . '?key=' . Encryption::make($stkValues['businessShortCode'])->encrypt($stkValues['phoneNumber'])
+            'CallBackURL'       => $_ENV['CALLBACK_URL'] . '?key=' . Encryption::make($_ENV['MPESA_SALTED_IV'])->encrypt($stkValues['productId'])
         ];
 
         $dataString = json_encode($curlPostData);
@@ -161,6 +161,7 @@ class Mpesa
         $stkValues = [
             'password'          => $password,
             'amount'            => $paymentData['amount'],
+            'productId'         => $paymentData['productId'],
             'phoneNumber'       => $paymentData['phoneNumber'],
             'description'       => $paymentData['description'],
             'accountReference'  => $paymentData['accountReference'],
@@ -168,7 +169,7 @@ class Mpesa
         ];
 
         $stkStatusValues = array_slice($stkValues, 0, 2, true);
-        $stkStatusValues += array_slice($stkValues, 5, 1, true);
+        $stkStatusValues += array_slice($stkValues, 6, 1, true);
 
         $stkStatusValues['CheckoutRequestID'] = $this->stkPush($stkValues);
 
