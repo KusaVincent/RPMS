@@ -6,9 +6,10 @@
         "psr-4": {
             "RPMS\\APP\\": "app/",
             "RPMS\\APP\\Log\\": "app/log/",
+            "RPMS\\APP\\Util\\": "app/util/",
             "RPMS\\APP\\Payment\\": "app/payment/",
             "RPMS\\APP\\Security\\": "app/security/",
-            "RPMS\\APP\\Util\\": "app/util/"
+            "RPMS\\APP\\Notification\\": "app/notification/"
         }
     },
     "authors": [
@@ -22,6 +23,8 @@
         "monolog/monolog": "^3.4",
         "vlucas/phpdotenv": "^5.5",
         "bramus/router": "~1.6",
-        "jenssegers/blade": "^1.4"
+        "jenssegers/blade": "^1.4",
+        "africastalking/africastalking": "^3.0",
+        "phpmailer/phpmailer": "^6.8"
     }
 }

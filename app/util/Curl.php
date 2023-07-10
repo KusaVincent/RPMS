@@ -5,7 +5,7 @@ use RPMS\APP\Log\SystemLog;
 
 class Curl
 {
-    public static function call(SystemLog $systemLog, string $url, array $curlHeader, string $methodFor, ?string $dataString = null): string | bool
+    public static function call(SystemLog $systemLog, string $url, array $curlHeader, string $methodFor, ?string $payload = null): string | bool
     {
         $curl = curl_init();
 
@@ -18,10 +18,11 @@ class Curl
                 curl_setopt($curl, CURLOPT_HEADER, false);
                 curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
                 break;
+            case 'post':
             case 'stk_push':
             case 'stk_status_response':
                 curl_setopt($curl, CURLOPT_POST, true);
-                curl_setopt($curl, CURLOPT_POSTFIELDS, $dataString);
+                curl_setopt($curl, CURLOPT_POSTFIELDS, $payload);
                 curl_setopt($curl, CURLOPT_HEADER, false);
                 break;
         }
