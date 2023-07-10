@@ -31,8 +31,6 @@ if ($phoneNumber === false) {
 }
 
 
-
-
 // header('Content-Type: application/json');
 
 // $mpesaResponse = file_get_contents('php://input');

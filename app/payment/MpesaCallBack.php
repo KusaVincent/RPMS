@@ -27,7 +27,7 @@ class MpesaCallBack
 
         $result = array_column($metadata, 'Value', 'Name');
 
-        $result['productId'] = $callbackData['key'];
+        $result['productId'] = $callbackData['productId'];
         
         $result['checkoutRequestID'] = $checkoutRequestID;
 
