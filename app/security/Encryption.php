@@ -2,18 +2,18 @@
 
 namespace RPMS\APP\Security;
 
-use RPMS\APP\Log\SystemLog;
+use RPMS\APP\Log\LogHandler;
 
 class Encryption
 {
     private $extraKey;
-    private $systemLog;
+    private $logName;
     private $getVarSalt;
 
     public function __construct(?string $varSalt = null)
     {
+        $this->logName      = 'encryption';
         $this->extraKey     = $_ENV['STATIC_SALT'];
-        $this->systemLog    = new SystemLog('encryption');
         $this->getVarSalt   = $varSalt === null ? $this->encryptIP() : $varSalt;
     }
 
@@ -32,12 +32,7 @@ class Encryption
         try {
             return $this->encryptString($data);
         } catch (\Exception $e) {
-            try {
-                $this->systemLog->error($e->getMessage());
-            } catch (\Exception $e) {
-                SystemLog::log($e->getMessage());
-            }
-
+            LogHandler::handle($this->logName, 'Encryption failed: ' . $e->getMessage());
             throw new \Exception('Encryption failed: ' . $e->getMessage());
         }
     }
@@ -47,12 +42,7 @@ class Encryption
         try {
             return $this->decryptString($encryptedData);
         } catch (\Exception $e) {
-            try {
-                $this->systemLog->error($e->getMessage());
-            } catch (\Exception $e) {
-                SystemLog::log($e->getMessage());
-            }
-
+            LogHandler::handle($this->logName, 'Decryption failed: ' . $e->getMessage());
             throw new \Exception('Decryption failed: ' . $e->getMessage());
         }
     }
@@ -70,12 +60,7 @@ class Encryption
         $opensslOutput  = openssl_encrypt($rawData, $_ENV['ENCRYPT_METHOD'], $key, 0, $iv);
 
         if ($opensslOutput === false) {
-            try {
-                $this->systemLog->info('Encryption failed');
-            } catch (\Exception $e) {
-                SystemLog::log($e->getMessage());
-            }
-
+            LogHandler::handle($this->logName, 'Encryption failed');
             throw new \Exception('Encryption failed');
         }
 
@@ -92,12 +77,7 @@ class Encryption
         $decryptedOutput    = openssl_decrypt($this->base64UrlDecode($setEncryptData), $_ENV['ENCRYPT_METHOD'], $key, 0, $iv);
         
         if ($decryptedOutput === false) {
-            try {
-                $this->systemLog->info('Decryption failed');
-            } catch (\Exception $e) {
-                SystemLog::log($e->getMessage());
-            }
-            
+            LogHandler::handle($this->logName, 'Decryption failed');
             throw new \Exception('Decryption failed');
         }
 

@@ -2,23 +2,18 @@
 
 namespace RPMS\APP\Payment;
 
-use RPMS\APP\Log\SystemLog;
+use RPMS\APP\Log\LogHandler;
 
 class MpesaCallBack
 {
-    public static function handleMpesaCallback(SystemLog $systemLog, array $callbackData): array | string
+    public static function handleMpesaCallback(array $callbackData): array | string
     {
         $resultCode = $callbackData['Body']['stkCallback']['ResultCode'];
         $checkoutRequestID = $callbackData['Body']['stkCallback']['CheckoutRequestID'];
 
         if ($resultCode !== 0) {
             if(!isset($callbackData['Body']['stkCallback']['CallbackMetadata'])) {
-                try {
-                    $systemLog->info(json_encode($callbackData));
-                } catch (\Exception $e) {
-                    SystemLog::log($e->getMessage());
-                }
-
+                LogHandler::handle('mpesa-callback', json_encode($callbackData), 'info');
                 return $callbackData['productId'] . "'s Request not successful";
             }
          }

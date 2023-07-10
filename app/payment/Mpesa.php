@@ -4,23 +4,21 @@ namespace RPMS\APP\Payment;
 
 use Carbon\Carbon;
 use RPMS\APP\Util\Curl;
-use RPMS\APP\Log\SystemLog;
+use RPMS\APP\Log\LogHandler;
 use RPMS\APP\Security\Encryption;
 
 class Mpesa
 {
-    private $systemLog;
+    private $logName;
     private $consumerKey;
     private $accessToken;
-    private $curlSystemLog;
     private $consumerSecret;
     private $currentTimestamp;
 
     public function __construct(string $consumerKey, string $consumerSecret)
     {
+        $this->logName          = 'mpesa';
         $this->consumerKey      = $consumerKey;
-        $this->curlSystemLog    = new SystemLog('curl');
-        $this->systemLog        = new SystemLog('mpesa');
         $this->consumerSecret   = $consumerSecret;
         $this->accessToken      = $this->generateAccessToken();
         $this->currentTimestamp = Carbon::now()->format('YmdHms');
@@ -37,16 +35,11 @@ class Mpesa
         $curlHeader = array("Authorization: Basic " . $credential, "Content-Type:application/json");
 
         try {
-            $curlResponse = Curl::call($this->curlSystemLog, $_ENV['SAFARICOM_BASE_URL'] . $_ENV['TOKEN_URL'], $curlHeader, 'token');
+            $curlResponse = Curl::call($_ENV['SAFARICOM_BASE_URL'] . $_ENV['TOKEN_URL'], $curlHeader, 'token');
             $accessToken = json_decode($curlResponse);
             return $accessToken->access_token;
         } catch (\Exception $e) {
-            try {
-                $this->systemLog->error($e->getMessage());
-            } catch (\Exception $ex) {
-                SystemLog::log($ex->getMessage());
-            }
-
+            LogHandler::handle($this->logName, $e->getMessage());
             throw $e;
         }
     }
@@ -71,17 +64,12 @@ class Mpesa
         $curlHeader = array('Content-Type:application/json', 'Authorization:Bearer ' . $this->accessToken);
 
         try {
-            $curlResponse = Curl::call($this->curlSystemLog, $_ENV['SAFARICOM_BASE_URL'] . $_ENV['ENDPOINT_URL'], $curlHeader, 'stk_push', $dataString);
+            $curlResponse = Curl::call($_ENV['SAFARICOM_BASE_URL'] . $_ENV['ENDPOINT_URL'], $curlHeader, 'stk_push', $dataString);
             $decodedCurlResponse = json_decode($curlResponse, true);
             $checkoutRequestID = $decodedCurlResponse['ResponseCode'] == "0" ? $decodedCurlResponse['CheckoutRequestID'] : "";
             return $checkoutRequestID;
         } catch (\Exception $e) {
-            try {
-                $this->systemLog->error($e->getMessage());
-            } catch (\Exception $ex) {
-                SystemLog::log($ex->getMessage());
-            }
-
+            LogHandler::handle($this->logName, $e->getMessage());
             throw $e;
         }
     }
@@ -114,14 +102,9 @@ class Mpesa
         $curlHeader = ['Content-Type:application/json', 'Authorization:Bearer ' . $this->accessToken];
 
         try {
-            return Curl::call($this->curlSystemLog, $_ENV['SAFARICOM_BASE_URL'] . $_ENV['QUERY_URL'], $curlHeader, 'stk_status_response', json_encode($curlPostData));
+            return Curl::call($_ENV['SAFARICOM_BASE_URL'] . $_ENV['QUERY_URL'], $curlHeader, 'stk_status_response', json_encode($curlPostData));
         } catch (\Exception $e) {
-            try {
-                $this->systemLog->error($e->getMessage());
-            } catch (\Exception $ex) {
-                SystemLog::log($ex->getMessage());
-            }
-
+            LogHandler::handle($this->logName, $e->getMessage());
             throw $e;
         }
     }

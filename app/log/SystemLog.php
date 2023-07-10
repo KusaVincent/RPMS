@@ -12,6 +12,7 @@ class SystemLog
 
     public function __construct(string $name, string|int|Level $logLevel = Level::Debug, string $filename = 'rpms')
     {
+        $name = ucfirst($name);
         $this->log = new Logger($name);
         $this->log->pushHandler(new RotatingFileHandler(filename: __DIR__ . '-' . $filename . '.log', level: $logLevel));
     }

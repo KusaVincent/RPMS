@@ -1,7 +1,7 @@
 <?php
 namespace RPMS\APP\Notification;
 
-use RPMS\APP\Log\SystemLog;
+use RPMS\APP\Log\LogHandler;
 use PHPMailer\PHPMailer\PHPMailer;
 
 class Email
@@ -9,15 +9,14 @@ class Email
     private $host;
     private $sender;
     private $mailer;
-    private $systemLog;
+    private $logName;
 
     public function __construct(string $senderEmail, string $senderPassword, string $host)
     {
         $this->host   = $host;
+        $this->logName = 'email'; 
         $this->sender = $senderEmail;
         $this->mailer = new PHPMailer(true);
-
-        $this->systemLog = new SystemLog('email'); 
 
         $this->configureMailer($senderEmail, $senderPassword);
     }
@@ -33,12 +32,7 @@ class Email
             $this->mailer->Username = $senderEmail;
             $this->mailer->Password = $senderPassword;
         } catch (\Exception $e) {
-            try {
-                $this->systemLog->error('Failed to configure mailer: ' . $e->getMessage());
-            } catch (\Exception $ex) {
-                SystemLog::log($ex->getMessage());  
-            }
-
+            LogHandler::handle($this->logName, 'Failed to configure mailer: ' . $e->getMessage());
             throw new \Exception('Failed to configure mailer: ' . $e->getMessage());
         }
     }
@@ -61,12 +55,8 @@ class Email
                     $results[$email] = true;
                 }
             } catch (\Exception $e) {
-                try {
-                    $this->systemLog->error('Failed to send email to ' . $email . ': ' . $e->getMessage());
-                } catch (\Exception $ex) {
-                    SystemLog::log($ex->getMessage());  
-                }
-                
+                LogHandler::handle($this->logName, 'Failed to send email to ' . $email . ': ' . $e->getMessage());
+
                 $results[$email] = false;
             } finally {
                 $this->mailer->ClearAddresses();

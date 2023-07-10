@@ -1,11 +1,11 @@
 <?php
 namespace RPMS\APP\Util;
 
-use RPMS\APP\Log\SystemLog;
+use RPMS\APP\Log\LogHandler;
 
 class Curl
 {
-    public static function call(SystemLog $systemLog, string $url, array $curlHeader, string $methodFor, ?string $payload = null): string | bool
+    public static function call(string $url, array $curlHeader, string $methodFor, ?string $payload = null): string | bool
     {
         $curl = curl_init();
 
@@ -28,17 +28,14 @@ class Curl
         }
 
         $curlResponse = curl_exec($curl);
+        
+        $logName = 'curl';
 
         if ($curlResponse === false) {
             $error = curl_error($curl);
             curl_close($curl);
 
-            try {
-                $systemLog->error($error);
-            } catch (\Exception $e) {
-                SystemLog::log('curl', 'error', $e->getMessage());
-            }
-
+            LogHandler::handle($logName, "cURL Error: " . $error);
             throw new \Exception("cURL Error: " . $error);
         }
 
@@ -46,12 +43,7 @@ class Curl
         curl_close($curl);
 
         if ($httpCode >= 400) {
-            try {
-                $systemLog->error($httpCode);
-            } catch (\Exception $e) {
-                SystemLog::log('curl', 'error', $e->getMessage());
-            }
-
+            LogHandler::handle($logName, "HTTP Error: " . $httpCode);
             throw new \Exception("HTTP Error: " . $httpCode);
         }
 

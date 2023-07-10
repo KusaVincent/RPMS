@@ -7,6 +7,7 @@
             "RPMS\\APP\\": "app/",
             "RPMS\\APP\\Log\\": "app/log/",
             "RPMS\\APP\\Util\\": "app/util/",
+            "RPMS\\APP\\Report\\": "app/report/",
             "RPMS\\APP\\Payment\\": "app/payment/",
             "RPMS\\APP\\Security\\": "app/security/",
             "RPMS\\APP\\Notification\\": "app/notification/"
@@ -25,6 +26,8 @@
         "bramus/router": "~1.6",
         "jenssegers/blade": "^1.4",
         "africastalking/africastalking": "^3.0",
-        "phpmailer/phpmailer": "^6.8"
+        "phpmailer/phpmailer": "^6.8",
+        "dompdf/dompdf": "^2.0",
+        "phpoffice/phpspreadsheet": "^1.29"
     }
 }

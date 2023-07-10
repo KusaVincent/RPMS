@@ -3,26 +3,27 @@
 namespace RPMS\APP\Notification;
 
 use RPMS\APP\Util\Curl;
-use RPMS\APP\Log\SystemLog;
+use RPMS\APP\Log\LogHandler;
 
 class MobiTechSMS
 {
     private $apiKey;
     private $baseUrl;
-    private $systemLog;
+    private $logName;
     private $senderName;
 
     public function __construct(string $apiKey, string $senderName)
     {
         $this->apiKey       = $apiKey;
         $this->senderName   = $senderName;
-        $this->systemLog    = new SystemLog('mobitech-sms');
+        $this->logName      = 'mobitech-sms';
         $this->baseUrl      = "https://api.mobitechtechnologies.com/sms";
     }
 
     public function send(array $recipients, array $messages): array
     {
-        if (count($recipients) !== count($messages)) {
+        if (count($recipients) !== count($messages)) {                
+            LogHandler::handle($this->logName, "Number of recipients and messages should be equal.");
             throw new \Exception("Number of recipients and messages should be equal.");
         }
 
@@ -48,10 +49,10 @@ class MobiTechSMS
             ];
 
             try {
-                $response = Curl::call($this->systemLog, $url, $curlHeader, 'post', $payload);
+                $response = Curl::call($url, $curlHeader, 'post', $payload);
                 $results[$mobile] = $response;
             } catch (\Exception $e) {
-                $this->systemLog->error("SMS sending failed to $mobile: " . $e->getMessage());
+                LogHandler::handle($this->logName, "SMS sending failed to $mobile: " . $e->getMessage());
                 $results[$mobile] = "SMS sending failed: " . $e->getMessage();
             }
         }
