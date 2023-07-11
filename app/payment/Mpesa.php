@@ -1,19 +1,19 @@
 <?php
 
-namespace RPMS\APP\Payment;
+namespace RPMS\App\Payment;
 
 use Carbon\Carbon;
-use RPMS\APP\Util\Curl;
-use RPMS\APP\Log\LogHandler;
-use RPMS\APP\Security\Encryption;
+use RPMS\App\Util\Curl;
+use RPMS\App\Log\LogHandler;
+use RPMS\App\Security\Encryption;
 
 class Mpesa
 {
-    private $logName;
-    private $consumerKey;
-    private $accessToken;
-    private $consumerSecret;
-    private $currentTimestamp;
+    private string $logName;
+    private string $consumerKey;
+    private string $accessToken;
+    private string $consumerSecret;
+    private string $currentTimestamp;
 
     public function __construct(string $consumerKey, string $consumerSecret)
     {
@@ -57,7 +57,7 @@ class Mpesa
             'AccountReference'  => $stkValues['accountReference'],
             'PartyB'            => $stkValues['businessShortCode'],
             'BusinessShortCode' => $stkValues['businessShortCode'],
-            'CallBackURL'       => $_ENV['CALLBACK_URL'] . '?key=' . Encryption::make($_ENV['MPESA_SALTED_IV'])->encrypt($stkValues['productId'])
+            'CallBackURL'       => $_ENV['CALLBACK_URL'] . '?key=' . Encryption::salt($_ENV['MPESA_SALTED_IV'])->encrypt($stkValues['productId'])
         ];
 
         $dataString = json_encode($curlPostData);

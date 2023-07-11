@@ -4,13 +4,13 @@
     "type": "project",
     "autoload": {
         "psr-4": {
-            "RPMS\\APP\\": "app/",
-            "RPMS\\APP\\Log\\": "app/log/",
-            "RPMS\\APP\\Util\\": "app/util/",
-            "RPMS\\APP\\Report\\": "app/report/",
-            "RPMS\\APP\\Payment\\": "app/payment/",
-            "RPMS\\APP\\Security\\": "app/security/",
-            "RPMS\\APP\\Notification\\": "app/notification/"
+            "RPMS\\App\\": "app/",
+            "RPMS\\App\\Log\\": "app/log/",
+            "RPMS\\App\\Util\\": "app/util/",
+            "RPMS\\App\\Report\\": "app/report/",
+            "RPMS\\App\\Payment\\": "app/payment/",
+            "RPMS\\App\\Security\\": "app/security/",
+            "RPMS\\App\\Notification\\": "app/notification/"
         }
     },
     "authors": [
@@ -20,14 +20,14 @@
         }
     ],
     "require": {
+        "bramus/router": "~1.6",
+        "dompdf/dompdf": "^2.0",
         "nesbot/carbon": "^2.68",
         "monolog/monolog": "^3.4",
-        "vlucas/phpdotenv": "^5.5",
-        "bramus/router": "~1.6",
         "jenssegers/blade": "^1.4",
-        "africastalking/africastalking": "^3.0",
+        "vlucas/phpdotenv": "^5.5",
         "phpmailer/phpmailer": "^6.8",
-        "dompdf/dompdf": "^2.0",
-        "phpoffice/phpspreadsheet": "^1.29"
+        "phpoffice/phpspreadsheet": "^1.29",
+        "africastalking/africastalking": "^3.0"
     }
 }

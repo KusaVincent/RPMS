@@ -1,17 +1,18 @@
 <?php
 
-namespace RPMS\APP\Report;
+namespace RPMS\App\Report;
 
-use RPMS\APP\Log\LogHandler;
+use RPMS\App\Log\LogHandler;
+use RPMS\App\Security\Header\HeaderSetting;
 use PhpOffice\PhpSpreadsheet\Writer\Csv;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 
 class ExcelReport
 {
-    private $filename;
-    private $data;
-    private $format;
+    private array $data;
+    private string $format;
+    private string $filename;
 
     public static function generate(string $filename, array $data, string $format = 'xlsx'): self
     {
@@ -49,21 +50,21 @@ class ExcelReport
                 'xlsx' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
                 'csv' => 'text/csv',
             ];
-
+    
             if (array_key_exists($fileExtension, $fileMimeTypes)) {
                 $fileMimeType = $fileMimeTypes[$fileExtension];
-
-                header('Content-Type: ' . $fileMimeType);
+    
+                HeaderSetting::setHeader('Content-Type', $fileMimeType);
                 if ($forceDownload) {
-                    header('Content-Disposition: attachment; filename="' . basename($this->filename) . '"');
+                    HeaderSetting::setHeader('Content-Disposition', 'attachment; filename="' . basename($this->filename) . '"');
                 } else {
-                    header('Content-Disposition: inline; filename="' . basename($this->filename) . '"');
+                    HeaderSetting::setHeader('Content-Disposition', 'inline; filename="' . basename($this->filename) . '"');
                 }
-                header('Cache-Control: private, max-age=0, must-revalidate');
-                header('Pragma: public');
-                header('Content-Transfer-Encoding: binary');
-                header('Content-Length: ' . filesize($this->filename));
-
+                HeaderSetting::setHeader('Cache-Control', 'private, max-age=0, must-revalidate');
+                HeaderSetting::setHeader('Pragma', 'public');
+                HeaderSetting::setHeader('Content-Transfer-Encoding', 'binary');
+                HeaderSetting::setHeader('Content-Length', filesize($this->filename));
+    
                 readfile($this->filename);
             } else {
                 LogHandler::handle('excel', 'Invalid file extension: ' . $fileExtension);
@@ -80,10 +81,12 @@ class ExcelReport
         $row = 1;
         foreach ($data as $rowData) {
             $column = 1;
+
             foreach ($rowData as $cellData) {
                 $worksheet->setCellValueByColumnAndRow($column, $row, $cellData);
                 $column++;
             }
+
             $row++;
         }
     }

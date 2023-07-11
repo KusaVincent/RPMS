@@ -1,6 +1,6 @@
 <?php
 
-namespace RPMS\APP\Log;
+namespace RPMS\App\Log;
 
 class LogHandler extends SystemLog
 {

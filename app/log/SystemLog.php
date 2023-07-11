@@ -1,6 +1,6 @@
 <?php
 
-namespace RPMS\APP\Log;
+namespace RPMS\App\Log;
 
 use Monolog\Level;
 use Monolog\Logger;
@@ -8,7 +8,7 @@ use Monolog\Handler\RotatingFileHandler;
 
 class SystemLog
 {
-    private $log;
+    private object $log;
 
     public function __construct(string $name, string|int|Level $logLevel = Level::Debug, string $filename = 'rpms')
     {

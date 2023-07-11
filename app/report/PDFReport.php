@@ -1,12 +1,13 @@
 <?php
-namespace RPMS\APP\Report;
+namespace RPMS\App\Report;
 
 use Dompdf\Dompdf;
-use RPMS\APP\Log\LogHandler;
+use RPMS\App\Log\LogHandler;
+use RPMS\App\Security\Header\HeaderSetting;
 
 class PDFReport
 {
-    private static $dompdf;
+    private static object $dompdf;
 
     public static function generate(string $html, string $paperSize = 'A4', string $orientation = 'portrait'): self
     {
@@ -27,11 +28,14 @@ class PDFReport
             throw new \Exception('PDF has not been generated');
         }
 
-        header('Content-Type: application/pdf');
-        header('Content-Disposition: ' . ($preview ? 'inline' : 'attachment') . '; filename="' . $filename . '"');
-        header('Cache-Control: private, max-age=0, must-revalidate');
-        header('Pragma: public');
-        header('Content-Transfer-Encoding: binary');
+        $contentType = 'application/pdf';
+        $contentDisposition = ($preview ? 'inline' : 'attachment');
+        
+        HeaderSetting::setHeader('Content-Type', $contentType);
+        HeaderSetting::setHeader('Content-Disposition', $contentDisposition . '; filename="' . $filename . '"');
+        HeaderSetting::setHeader('Cache-Control', 'private, max-age=0, must-revalidate');
+        HeaderSetting::setHeader('Pragma', 'public');
+        HeaderSetting::setHeader('Content-Transfer-Encoding', 'binary');
 
         self::$dompdf->stream($filename, ['Attachment' => $preview ? 0 : 1]);
     }

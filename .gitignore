@@ -1,4 +1,6 @@
+dump
 .env
 *.log
+*.csv
+*.xlsx
 vendor
-dump

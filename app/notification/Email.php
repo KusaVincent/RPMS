@@ -1,15 +1,15 @@
 <?php
-namespace RPMS\APP\Notification;
+namespace RPMS\App\Notification;
 
-use RPMS\APP\Log\LogHandler;
+use RPMS\App\Log\LogHandler;
 use PHPMailer\PHPMailer\PHPMailer;
 
 class Email
 {
-    private $host;
-    private $sender;
-    private $mailer;
-    private $logName;
+    private string $host;
+    private string $sender;
+    private object $mailer;
+    private string $logName;
 
     public function __construct(string $senderEmail, string $senderPassword, string $host)
     {

@@ -1,8 +1,8 @@
 <?php
 
-namespace RPMS\APP\Payment;
+namespace RPMS\App\Payment;
 
-use RPMS\APP\Log\LogHandler;
+use RPMS\App\Log\LogHandler;
 
 class MpesaCallBack
 {

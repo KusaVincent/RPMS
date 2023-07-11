@@ -1,15 +1,15 @@
 <?php
-namespace RPMS\APP\Notification;
+namespace RPMS\App\Notification;
 
-use RPMS\APP\Log\LogHandler;
+use RPMS\App\Log\LogHandler;
 use AfricasTalking\SDK\AfricasTalking;
 
 class AfricasTalkingSMS
 {
-    private $sms;
-    private $apiKey;
-    private $logName;
-    private $username;
+    private object $sms;
+    private string $apiKey;
+    private string $logName;
+    private string $username;
 
     public function __construct(string $username, string $apiKey)
     {

@@ -1,6 +1,6 @@
 <?php
 
-namespace RPMS\APP\Util;
+namespace RPMS\App\Util;
 
 class PhoneNumber {
     

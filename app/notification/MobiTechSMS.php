@@ -1,23 +1,23 @@
 <?php
 
-namespace RPMS\APP\Notification;
+namespace RPMS\App\Notification;
 
-use RPMS\APP\Util\Curl;
-use RPMS\APP\Log\LogHandler;
+use RPMS\App\Util\Curl;
+use RPMS\App\Log\LogHandler;
 
 class MobiTechSMS
 {
-    private $apiKey;
-    private $baseUrl;
-    private $logName;
-    private $senderName;
+    private string $apiKey;
+    private string $baseUrl;
+    private string $logName;
+    private string $senderName;
 
     public function __construct(string $apiKey, string $senderName)
     {
-        $this->apiKey       = $apiKey;
-        $this->senderName   = $senderName;
-        $this->logName      = 'mobitech-sms';
-        $this->baseUrl      = "https://api.mobitechtechnologies.com/sms";
+        $this->apiKey     = $apiKey;
+        $this->senderName = $senderName;
+        $this->logName    = 'mobitech-sms';
+        $this->baseUrl    = "https://api.mobitechtechnologies.com/sms";
     }
 
     public function send(array $recipients, array $messages): array
