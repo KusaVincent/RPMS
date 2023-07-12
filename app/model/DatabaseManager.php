@@ -7,10 +7,12 @@ use RPMS\App\Log\LogHandler;
 
 class DatabaseManager extends PdoOneORM {
     public function __construct() {
-        parent::__construct('mysql', 'localhost:8000', 'root', '', 'mpesa');
+        parent::__construct($_ENV['DB_DRIVER'], $_ENV['DB_HOST'], $_ENV['DB_USERNAME'], $_ENV['DB_PASSWORD'], $_ENV['DB_NAME']);
+        parent::connect();
     }
 
-    public static function checkConnection() {
+    //for debugging
+    public function checkConnection() {
         try {
             $databaseManager = new self();
             $connected = $databaseManager->connect();
@@ -26,7 +28,7 @@ class DatabaseManager extends PdoOneORM {
         }
     }
 
-    public static function executeSelect(string $sql, array $params = []) : object | bool
+    public static function executeSelect(string $sql, array $params = []) : array | bool
     {
         try {
             $databaseManager = new self();
