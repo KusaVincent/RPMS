@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e25fefdd1eaf376739f9c8cdd6bbc64b",
+    "content-hash": "2c6d09a57a0a3a751627a79c34dd8992",
     "packages": [
         {
             "name": "africastalking/africastalking",
@@ -61,6 +61,62 @@
                 "source": "https://github.com/AfricasTalkingLtd/africastalking-php/tree/v3.0.0"
             },
             "time": "2020-10-11T00:52:15+00:00"
+        },
+        {
+            "name": "bordoni/phpass",
+            "version": "0.3.6",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/bordoni/phpass.git",
+                "reference": "12f8f5cc03ebb7efd69554f104afe9aa1aa46e1a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/bordoni/phpass/zipball/12f8f5cc03ebb7efd69554f104afe9aa1aa46e1a",
+                "reference": "12f8f5cc03ebb7efd69554f104afe9aa1aa46e1a",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.3"
+            },
+            "replace": {
+                "hautelook/phpass": "0.3.*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Hautelook": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Public Domain"
+            ],
+            "authors": [
+                {
+                    "name": "Solar Designer",
+                    "email": "solar@openwall.com",
+                    "homepage": "http://openwall.com/phpass/"
+                },
+                {
+                    "name": "Gustavo Bordoni",
+                    "email": "gustavo@bordoni.me",
+                    "homepage": "https://bordoni.me"
+                }
+            ],
+            "description": "Portable PHP password hashing framework",
+            "homepage": "http://github.com/bordoni/phpass/",
+            "keywords": [
+                "blowfish",
+                "crypt",
+                "password",
+                "security"
+            ],
+            "support": {
+                "issues": "https://github.com/bordoni/phpass/issues",
+                "source": "https://github.com/bordoni/phpass/tree/0.3.6"
+            },
+            "time": "2012-08-31T00:00:00+00:00"
         },
         {
             "name": "bramus/router",
@@ -265,6 +321,219 @@
                 "source": "https://github.com/dompdf/dompdf/tree/v2.0.3"
             },
             "time": "2023-02-07T12:51:48+00:00"
+        },
+        {
+            "name": "eftec/clione",
+            "version": "1.29.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/EFTEC/CliOne.git",
+                "reference": "46b61dc76420368c5ec20d34619328c837c7d680"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/EFTEC/CliOne/zipball/46b61dc76420368c5ec20d34619328c837c7d680",
+                "reference": "46b61dc76420368c5ec20d34619328c837c7d680",
+                "shasum": ""
+            },
+            "require": {
+                "ext-iconv": "*",
+                "ext-json": "*",
+                "ext-readline": "*",
+                "php": ">=7.2.5"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^8.5"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "eftec\\CliOne\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "mit"
+            ],
+            "authors": [
+                {
+                    "name": "jorgecc",
+                    "email": "jcastro@eftec.cl"
+                }
+            ],
+            "description": "A generator of command line (CLI) for Windows and Linux using PHP",
+            "support": {
+                "issues": "https://github.com/EFTEC/CliOne/issues",
+                "source": "https://github.com/EFTEC/CliOne/tree/1.29.1"
+            },
+            "time": "2023-04-08T12:31:34+00:00"
+        },
+        {
+            "name": "eftec/messagecontainer",
+            "version": "2.8",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/EFTEC/MessageContainer.git",
+                "reference": "f745542a6575c92026d8a597eb0ac058fbf6f8c0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/EFTEC/MessageContainer/zipball/f745542a6575c92026d8a597eb0ac058fbf6f8c0",
+                "reference": "f745542a6575c92026d8a597eb0ac058fbf6f8c0",
+                "shasum": ""
+            },
+            "require": {
+                "ext-ctype": "*",
+                "php": ">=7.2.5"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^9.5"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "eftec\\": "lib/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jorge Castro",
+                    "email": "jcastro@eftec.cl"
+                }
+            ],
+            "description": "MessageContainer is a simple a minimalist message-system where messages (strings) could be stored in a tree-like structure",
+            "homepage": "https://github.com/EFTEC/MessageContainer",
+            "support": {
+                "issues": "https://github.com/EFTEC/MessageContainer/issues",
+                "source": "https://github.com/EFTEC/MessageContainer/tree/2.8"
+            },
+            "time": "2023-01-29T01:02:22+00:00"
+        },
+        {
+            "name": "eftec/pdoone",
+            "version": "4.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/EFTEC/PdoOne.git",
+                "reference": "a8a387f18c335bd7f122f38f01f6f1bf654a409a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/EFTEC/PdoOne/zipball/a8a387f18c335bd7f122f38f01f6f1bf654a409a",
+                "reference": "a8a387f18c335bd7f122f38f01f6f1bf654a409a",
+                "shasum": ""
+            },
+            "require": {
+                "eftec/clione": "^1.28",
+                "eftec/messagecontainer": "^2.8",
+                "ext-json": "*",
+                "ext-pdo": "*",
+                "ext-readline": "*",
+                "php": ">=7.2.5"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^8.5.13"
+            },
+            "suggest": {
+                "eftec/pdooneorm": "The ORM extension for PdoOne",
+                "eftec/validationone": "For keeping and storing the messages"
+            },
+            "bin": [
+                "lib/pdoonecli"
+            ],
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "eftec\\": "lib/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jorge Castro Castillo",
+                    "homepage": "https://github.com/EFTEC/"
+                }
+            ],
+            "description": "Minimaist procedural PDO wrapper library",
+            "homepage": "https://github.com/EFTEC/PdoOne",
+            "keywords": [
+                "mysql",
+                "oracle",
+                "pdo",
+                "php",
+                "sqlserver"
+            ],
+            "support": {
+                "issues": "https://github.com/EFTEC/PdoOne/issues",
+                "source": "https://github.com/EFTEC/PdoOne/tree/4.3"
+            },
+            "time": "2023-07-01T15:43:04+00:00"
+        },
+        {
+            "name": "eftec/pdooneorm",
+            "version": "1.2.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/EFTEC/PdoOneORM.git",
+                "reference": "94cfe4eb59fc61d1e5317828a46c69525c0d78f0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/EFTEC/PdoOneORM/zipball/94cfe4eb59fc61d1e5317828a46c69525c0d78f0",
+                "reference": "94cfe4eb59fc61d1e5317828a46c69525c0d78f0",
+                "shasum": ""
+            },
+            "require": {
+                "eftec/pdoone": "^4.2",
+                "ext-json": "*",
+                "ext-pdo": "*",
+                "php": ">=7.2.5"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^8.5.13"
+            },
+            "suggest": {
+                "eftec/validationone": "For keeping and storing the messages"
+            },
+            "bin": [
+                "lib/pdooneorm"
+            ],
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "eftec\\": "lib/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "LGPL-3.0-only"
+            ],
+            "authors": [
+                {
+                    "name": "Jorge Castro Castillo",
+                    "homepage": "https://github.com/EFTEC/"
+                }
+            ],
+            "description": "Procedural PDO Data access class in a single Class",
+            "homepage": "https://github.com/EFTEC/PdoOneORM",
+            "keywords": [
+                "dao",
+                "orm",
+                "pdo",
+                "php"
+            ],
+            "support": {
+                "issues": "https://github.com/EFTEC/PdoOneORM/issues",
+                "source": "https://github.com/EFTEC/PdoOneORM/tree/1.2.1"
+            },
+            "time": "2023-05-21T14:08:41+00:00"
         },
         {
             "name": "ezyang/htmlpurifier",

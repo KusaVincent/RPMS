@@ -14,7 +14,7 @@ class SystemLog
     {
         $name = ucfirst($name);
         $this->log = new Logger($name);
-        $this->log->pushHandler(new RotatingFileHandler(filename: __DIR__ . '-' . $filename . '.log', level: $logLevel));
+        $this->log->pushHandler(new RotatingFileHandler(filename: __DIR__ . $_ENV['LOG_PATH'] . $filename . '.log', level: $logLevel));
     }
 
     public static function log(string $message): void
