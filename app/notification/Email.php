@@ -6,17 +6,17 @@ use PHPMailer\PHPMailer\PHPMailer;
 
 class Email
 {
-    private string $host;
+    private array $config;
     private string $sender;
     private object $mailer;
     private string $logName;
 
-    public function __construct(string $senderEmail, string $senderPassword, string $host)
+    public function __construct(string $senderEmail, string $senderPassword, array $config)
     {
-        $this->host   = $host;
+        $this->config  = $config;
         $this->logName = 'email'; 
-        $this->sender = $senderEmail;
-        $this->mailer = new PHPMailer(true);
+        $this->sender  = $senderEmail;
+        $this->mailer  = new PHPMailer(true);
 
         $this->configureMailer($senderEmail, $senderPassword);
     }
@@ -25,12 +25,12 @@ class Email
     {
         try {
             $this->mailer->isSMTP();
-            $this->mailer->Host = $this->host;
-            $this->mailer->SMTPAuth = true;
-            $this->mailer->SMTPSecure = 'ssl';
-            $this->mailer->Port = 465;
-            $this->mailer->Username = $senderEmail;
-            $this->mailer->Password = $senderPassword;
+            $this->mailer->SMTPAuth   = true;
+            $this->mailer->Username   = $senderEmail;
+            $this->mailer->Password   = $senderPassword;
+            $this->mailer->Host       = $this->config['host'];
+            $this->mailer->Port       = $this->config['port'];
+            $this->mailer->SMTPSecure = $this->config['secure'];
         } catch (\Exception $e) {
             LogHandler::handle($this->logName, 'Failed to configure mailer: ' . $e->getMessage());
             throw new \Exception('Failed to configure mailer: ' . $e->getMessage());

@@ -7,6 +7,7 @@
             "RPMS\\App\\": "app/",
             "RPMS\\App\\Log\\": "app/log/",
             "RPMS\\App\\Util\\": "app/util/",
+            "RPMS\\App\\Model\\": "app/model/",
             "RPMS\\App\\Report\\": "app/report/",
             "RPMS\\App\\Payment\\": "app/payment/",
             "RPMS\\App\\Security\\": "app/security/",

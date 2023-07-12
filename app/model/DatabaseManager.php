@@ -2,12 +2,12 @@
 
 namespace RPMS\App\Model;
 
-use eftec\PdoOne;
+use eftec\PdoOneORM;
 use RPMS\App\Log\LogHandler;
 
-class DatabaseManager extends PdoOne {
+class DatabaseManager extends PdoOneORM {
     public function __construct() {
-        parent::__construct('mysql', $_ENV['DB_HOST'], $_ENV['DB_USERNAME'], $_ENV['DB_PASSWORD'], $_ENV['DB_NAME']);
+        parent::__construct('mysql', 'localhost:8000', 'root', '', 'mpesa');
     }
 
     public static function checkConnection() {
