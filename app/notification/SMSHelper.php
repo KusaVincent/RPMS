@@ -31,11 +31,11 @@ class SMSHelper {
             
             foreach ($results as $recipient => $result) {
                 $response += array(
-                    $recipient => "SMS sent to $recipient: $result" . PHP_EOL
+                    $recipient => "MTS SMS sent to $recipient: $result" . PHP_EOL
                 );
             }
 
-            return $response;
+            return $response += ["success"];
         } catch (\Exception $e) {
             $error = 'Bulk SMS sending failed';
             LogHandler::handle('mobitech-sms', $error . ': ' . $e->getMessage());
@@ -53,11 +53,11 @@ class SMSHelper {
             
             foreach ($results as $recipient => $result) {
                 $response += array(
-                    $recipient => "SMS sent to $recipient: " . json_encode($result) . PHP_EOL
+                    $recipient => "ATS SMS sent to $recipient: " . json_encode($result) . PHP_EOL
                 );
             }
 
-            return $response;
+            return $response += ["success"];
         } catch (\Exception $e) {
             $error = 'Bulk SMS sending failed';
             LogHandler::handle('africas-talking-sms', $error . ': ' . $e->getMessage());
