@@ -8,7 +8,6 @@ ini_set('display_startup_errors', '1');
 error_reporting(E_ALL);
 
 use Dotenv\Dotenv;
-use RPMS\App\Security\CustomValidation;
 use RPMS\App\Security\Header\RequestHeader;
 
 Dotenv::createImmutable(__DIR__)->load();

@@ -7,8 +7,8 @@ use Rakit\Validation\Validator;
 
 class CustomValidation
 {
-    private static $logName;
-    private static $validator;
+    private static string $logName;
+    private static object $validator;
 
     private static function initialize()
     {
@@ -16,7 +16,7 @@ class CustomValidation
         self::$validator = new Validator();
     }
 
-    private static function validateAndGetErrors($values, $rules, $messages = [])
+    private static function validateAndGetErrors(array $values, array $rules, array $messages = []) : bool
     {
         self::initialize();
 
@@ -30,7 +30,7 @@ class CustomValidation
         return true;
     }
 
-    public static function validateUserRegistration($values)
+    public static function validateUserRegistration(array $values) : bool
     {
         $rules = [
             'name'      => 'required',
@@ -48,7 +48,7 @@ class CustomValidation
         }
     }
 
-    public static function validateContactForm($values)
+    public static function validateContactForm(array $values) : bool
     {
         $rules = [
             'name'    => 'required',
@@ -65,7 +65,7 @@ class CustomValidation
         }
     }
 
-    public static function validateDateRange($values)
+    public static function validateDateRange(array $values) : bool
     {
         $rules = [
             'start_date' => 'required|date',
@@ -81,7 +81,7 @@ class CustomValidation
         }
     }
 
-    public static function validateProductCreation($values)
+    public static function validateProductCreation(array $values) : bool
     {
         $rules = [
             'name'        => 'required',
@@ -98,7 +98,7 @@ class CustomValidation
         }
     }
 
-    public static function validateLoginForm($values)
+    public static function validateLoginForm(array $values) : bool
     {
         $rules = [
             'email'    => 'required|email',
