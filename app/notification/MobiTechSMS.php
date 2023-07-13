@@ -12,22 +12,25 @@ class MobiTechSMS
     private string $logName;
     private string $senderName;
 
-    public function __construct(string $apiKey, string $senderName)
+    public function __construct(string $senderName, string $apiKey)
     {
         $this->apiKey     = $apiKey;
         $this->senderName = $senderName;
         $this->logName    = 'mobitech-sms';
-        $this->baseUrl    = "https://api.mobitechtechnologies.com/sms";
+        $this->baseUrl    = "https://api.mobitechtechnologies.com/sms/sendsms";
     }
 
-    public function send(array $recipients, array $messages): array
+    public function send(array $recipients, array | string $messages): array
     {
-        if (count($recipients) !== count($messages)) {                
-            LogHandler::handle($this->logName, "Number of recipients and messages should be equal.");
-            throw new \Exception("Number of recipients and messages should be equal.");
+        if (is_array($messages)) {
+            if (count($recipients) !== count($messages)) {                
+                LogHandler::handle($this->logName, "Number of recipients and messages should be equal.");
+                throw new \Exception("Number of recipients and messages should be equal.");
+            }
+        } else {
+            $messages = array_fill(0, count($recipients), $messages);
         }
 
-        $url = $this->baseUrl . "/sendsms";
         $results = [];
 
         foreach ($recipients as $index => $mobile) {
@@ -49,7 +52,7 @@ class MobiTechSMS
             ];
 
             try {
-                $response = Curl::call($url, $curlHeader, 'post', $payload);
+                $response = Curl::call($this->baseUrl, $curlHeader, 'post', $payload);
                 $results[$mobile] = $response;
             } catch (\Exception $e) {
                 LogHandler::handle($this->logName, "SMS sending failed to $mobile: " . $e->getMessage());
