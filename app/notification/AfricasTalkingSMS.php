@@ -26,15 +26,31 @@ class AfricasTalkingSMS
         }
     }
 
-    public function send(array $recipients, string $message): array
+    public function send(array $recipients, $message): array
     {
         try {
             $results = [];
-            
+            $messageCount = count($recipients);
+
+            if (is_array($message) && count($message) === $messageCount) {
+                foreach ($recipients as $index => $recipient) {
+                    $result = $this->sms->send([
+                        'to' => $recipient,
+                        'message' => $message[$index],
+                    ]);
+
+                    $results[$recipient] = $result;
+                }
+
+                return $results;
+            }
+
+            $message = is_array($message) ? $message : array_fill(0, $messageCount, $message);
+
             foreach ($recipients as $recipient) {
                 $result = $this->sms->send([
                     'to' => $recipient,
-                    'message' => $message,
+                    'message' => array_shift($message),
                 ]);
 
                 $results[$recipient] = $result;
