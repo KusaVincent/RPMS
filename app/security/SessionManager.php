@@ -65,7 +65,7 @@ class SessionManager extends Session
 
     private static function checkSessionStarted()
     {
-        if (!self::isStarted()) {
+        if (!parent::isStarted()) {
             throw new SessionStartedException('Session has not been started.');
         }
     }
