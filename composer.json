@@ -32,6 +32,7 @@
         "africastalking/africastalking": "^3.0",
         "bordoni/phpass": "^0.3.6",
         "eftec/pdooneorm": "^1.2",
-        "rakit/validation": "^1.4"
+        "rakit/validation": "^1.4",
+        "josantonius/session": "^2.0"
     }
 }

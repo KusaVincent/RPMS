@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "59c3f44b49a61fbcb89dc408fb520489",
+    "content-hash": "bd9f066ce87ee68ef3523ab2fcfde0ff",
     "packages": [
         {
             "name": "africastalking/africastalking",
@@ -1583,6 +1583,69 @@
                 }
             ],
             "time": "2020-09-17T08:25:26+00:00"
+        },
+        {
+            "name": "josantonius/session",
+            "version": "v2.0.8",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/josantonius/php-session.git",
+                "reference": "1621ac504fe2f92e74a62a50eeeebf6088a0d16f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/josantonius/php-session/zipball/1621ac504fe2f92e74a62a50eeeebf6088a0d16f",
+                "reference": "1621ac504fe2f92e74a62a50eeeebf6088a0d16f",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^8.0"
+            },
+            "require-dev": {
+                "phpmd/phpmd": "^2.12",
+                "phpunit/phpunit": "^9.5",
+                "squizlabs/php_codesniffer": "^3.7"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Josantonius\\Session\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Josantonius",
+                    "email": "hello@josantonius.dev",
+                    "homepage": "https://josantonius.dev",
+                    "role": "Developer"
+                }
+            ],
+            "description": "PHP library for handling sessions.",
+            "keywords": [
+                "php",
+                "session"
+            ],
+            "support": {
+                "discussions": "https://github.com/josantonius/php-session/discussions",
+                "issues": "https://github.com/josantonius/php-session/issues",
+                "source": "https://github.com/josantonius/php-session"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/Josantonius",
+                    "type": "github"
+                }
+            ],
+            "time": "2022-09-29T20:37:55+00:00"
         },
         {
             "name": "maennchen/zipstream-php",
