@@ -33,6 +33,7 @@
         "bordoni/phpass": "^0.3.6",
         "eftec/pdooneorm": "^1.2",
         "rakit/validation": "^1.4",
-        "josantonius/session": "^2.0"
+        "josantonius/session": "^2.0",
+        "phpgt/csrf": "^1.7"
     }
 }
