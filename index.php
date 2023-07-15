@@ -8,13 +8,9 @@ ini_set('display_startup_errors', '1');
 error_reporting(E_ALL);
 
 use Dotenv\Dotenv;
-use RPMS\App\Security\CSRFToken;
 use RPMS\App\Security\SessionManager;
 use RPMS\App\Security\Header\RequestHeader;
 
 Dotenv::createImmutable(__DIR__)->load();
 RequestHeader::setRequestHeader(array('localhost:8000','localhost:8000'));
 SessionManager::init(['name' => 'JSESSID', 'cookie_lifetime' => 8000]);
-
-$token = CSRFToken::generate();
-echo json_encode([$token, CSRFToken::verify($token), SessionManager::getAllSessionValue()]);

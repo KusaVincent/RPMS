@@ -34,6 +34,7 @@
         "eftec/pdooneorm": "^1.2",
         "rakit/validation": "^1.4",
         "josantonius/session": "^2.0",
-        "phpgt/csrf": "^1.7"
+        "phpgt/csrf": "^1.7",
+        "volnix/csrf": "^1.2"
     }
 }

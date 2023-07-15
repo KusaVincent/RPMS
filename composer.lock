@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "0fc0c7e1ae4fbcf08bd1381b7efabd3b",
+    "content-hash": "0385195fc8665f6abe920ec4be4cbcd6",
     "packages": [
         {
             "name": "africastalking/africastalking",
@@ -3977,6 +3977,50 @@
                 }
             ],
             "time": "2022-01-24T18:55:24+00:00"
+        },
+        {
+            "name": "volnix/csrf",
+            "version": "1.2.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/volnix/csrf.git",
+                "reference": "9d1abbf3ce9bda1b34d7f8f70fa0871bb7a5dd6b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/volnix/csrf/zipball/9d1abbf3ce9bda1b34d7f8f70fa0871bb7a5dd6b",
+                "reference": "9d1abbf3ce9bda1b34d7f8f70fa0871bb7a5dd6b",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">= 5.3"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~3.7"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Volnix\\CSRF\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Nick Volgas",
+                    "email": "nvolgas@ark.org"
+                }
+            ],
+            "description": "CSRF protection library that compares provided token to session token to ensure request validity.",
+            "homepage": "https://github.com/volnix/csrf",
+            "support": {
+                "issues": "https://github.com/volnix/csrf/issues",
+                "source": "https://github.com/volnix/csrf/tree/master"
+            },
+            "time": "2017-09-19T13:24:13+00:00"
         }
     ],
     "packages-dev": [],
