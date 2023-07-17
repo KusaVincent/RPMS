@@ -2,8 +2,6 @@
 
 namespace RPMS\App\Model;
 
-use RPMS\App\Model\DatabaseManager;
-
 class EmailConfigDBData {
     public static function getMailConfig(string $emailHost) : array
     {

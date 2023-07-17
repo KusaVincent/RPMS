@@ -4,10 +4,23 @@ namespace RPMS\App\Model;
 
 use eftec\PdoOneORM;
 use RPMS\App\Log\LogHandler;
+use RPMS\App\Security\ImmutableVariable;
 
 class DatabaseManager extends PdoOneORM {
+    private string $dbHost;
+    private string $dbName;
+    private string $dbDriver;
+    private string $dbUsername;
+    private string $dbPassword;
+
     public function __construct() {
-        parent::__construct($_ENV['DB_DRIVER'], $_ENV['DB_HOST'], $_ENV['DB_USERNAME'], $_ENV['DB_PASSWORD'], $_ENV['DB_NAME']);
+        $this->dbHost     = ImmutableVariable::getValue('dbHost');
+        $this->dbName     = ImmutableVariable::getValue('dbName');
+        $this->dbDriver   = ImmutableVariable::getValue('dbDriver');
+        $this->dbUsername = ImmutableVariable::getValue('dbUsername');
+        $this->dbPassword = ImmutableVariable::getValue('dbPassword');
+
+        parent::__construct($this->dbDriver, $this->dbHost, $this->dbUsername, $this->dbPassword, $this->dbName);
         parent::connect();
     }
 

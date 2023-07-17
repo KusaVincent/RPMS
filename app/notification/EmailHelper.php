@@ -2,7 +2,6 @@
 
 namespace RPMS\App\Notification;
 
-use RPMS\App\Notification\Email;
 use RPMS\App\Model\EmailConfigDBData;
 
 class EmailHelper extends Email {

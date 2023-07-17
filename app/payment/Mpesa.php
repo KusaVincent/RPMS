@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use RPMS\App\Util\Curl;
 use RPMS\App\Log\LogHandler;
 use RPMS\App\Security\Encryption;
+use RPMS\App\Security\ImmutableVariable;
 
 class Mpesa
 {
@@ -15,6 +16,13 @@ class Mpesa
     private string $consumerSecret;
     private string $currentTimestamp;
 
+    private string $queryURL;
+    private string $tokenURL;
+    private string $endpointURL;
+    private string $callbackURL;
+    private string $mpesaSaltedIV;
+    private string $safaricomBaseURL;
+
     public function __construct(string $consumerKey, string $consumerSecret)
     {
         $this->logName          = 'mpesa';
@@ -22,6 +30,13 @@ class Mpesa
         $this->consumerSecret   = $consumerSecret;
         $this->accessToken      = $this->generateAccessToken();
         $this->currentTimestamp = Carbon::now()->format('YmdHms');
+
+        $this->tokenURL         = ImmutableVariable::getValue('tokenURL');
+        $this->queryURL         = ImmutableVariable::getValue('queryURL');
+        $this->endpointURL      = ImmutableVariable::getValue('endpointURL');
+        $this->callbackURL      = ImmutableVariable::getValue('callbackURL');
+        $this->mpesaSaltedIV    = ImmutableVariable::getValue('mpesaSaltedIV');
+        $this->safaricomBaseURL = ImmutableVariable::getValue('safaricomBaseURL');
     }
 
     private function lipaNaMpesaPassword(int $businessShortCode, string $passKey): string
@@ -35,7 +50,7 @@ class Mpesa
         $curlHeader = array("Authorization: Basic " . $credential, "Content-Type:application/json");
 
         try {
-            $curlResponse = Curl::call($_ENV['SAFARICOM_BASE_URL'] . $_ENV['TOKEN_URL'], $curlHeader, 'token');
+            $curlResponse = Curl::call($this->safaricomBaseURL . $this->tokenURL , $curlHeader, 'token');
             $accessToken = json_decode($curlResponse);
             return $accessToken->access_token;
         } catch (\Exception $e) {
@@ -57,14 +72,14 @@ class Mpesa
             'AccountReference'  => $stkValues['accountReference'],
             'PartyB'            => $stkValues['businessShortCode'],
             'BusinessShortCode' => $stkValues['businessShortCode'],
-            'CallBackURL'       => $_ENV['CALLBACK_URL'] . '?key=' . Encryption::salt($_ENV['MPESA_SALTED_IV'])->encrypt($stkValues['productId'])
+            'CallBackURL'       => $this->callbackURL . '?key=' . Encryption::salt($this->mpesaSaltedIV)->encrypt($stkValues['paymentId'])
         ];
 
         $dataString = json_encode($curlPostData);
         $curlHeader = array('Content-Type:application/json', 'Authorization:Bearer ' . $this->accessToken);
 
         try {
-            $curlResponse = Curl::call($_ENV['SAFARICOM_BASE_URL'] . $_ENV['ENDPOINT_URL'], $curlHeader, 'stk_push', $dataString);
+            $curlResponse = Curl::call($this->safaricomBaseURL . $this->endpointURL, $curlHeader, 'stk_push', $dataString);
             $decodedCurlResponse = json_decode($curlResponse, true);
             $checkoutRequestID = $decodedCurlResponse['ResponseCode'] == "0" ? $decodedCurlResponse['CheckoutRequestID'] : "";
             return $checkoutRequestID;
@@ -102,7 +117,7 @@ class Mpesa
         $curlHeader = ['Content-Type:application/json', 'Authorization:Bearer ' . $this->accessToken];
 
         try {
-            return Curl::call($_ENV['SAFARICOM_BASE_URL'] . $_ENV['QUERY_URL'], $curlHeader, 'stk_status_response', json_encode($curlPostData));
+            return Curl::call($this->safaricomBaseURL . $this->queryURL, $curlHeader, 'stk_status_response', json_encode($curlPostData));
         } catch (\Exception $e) {
             LogHandler::handle($this->logName, $e->getMessage());
             throw $e;
@@ -144,7 +159,7 @@ class Mpesa
         $stkValues = [
             'password'          => $password,
             'amount'            => $paymentData['amount'],
-            'productId'         => $paymentData['productId'],
+            'paymentId'         => $paymentData['paymentId'],
             'phoneNumber'       => $paymentData['phoneNumber'],
             'description'       => $paymentData['description'],
             'accountReference'  => $paymentData['accountReference'],

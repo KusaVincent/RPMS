@@ -4,17 +4,22 @@ namespace RPMS\App\Log;
 
 use Monolog\Level;
 use Monolog\Logger;
+use RPMS\App\Security\ImmutableVariable;
 use Monolog\Handler\RotatingFileHandler;
 
 class SystemLog
 {
     private object $log;
+    private string $logPath;
 
     public function __construct(string $name, string|int|Level $logLevel = Level::Debug, string $filename = 'rpms')
     {
         $name = ucfirst($name);
-        $this->log = new Logger($name);
-        $this->log->pushHandler(new RotatingFileHandler(filename: __DIR__ . $_ENV['LOG_PATH'] . $filename . '.log', level: $logLevel));
+        
+        $this->log     = new Logger($name);
+        $this->logPath = ImmutableVariable::getValue('logPath');
+
+        $this->log->pushHandler(new RotatingFileHandler(filename: __DIR__ . $this->logPath . $filename . '.log', level: $logLevel));
     }
 
     public static function log(string $message): void

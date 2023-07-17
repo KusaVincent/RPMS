@@ -7,15 +7,19 @@ use RPMS\App\Log\LogHandler;
 class Encryption
 {
     private string $logName;
+    private string $ivLength;
     private string $extraKey;
+    private string $tagLength;
     private string $getVarSalt;
     private string $encryptMethod;
 
     public function __construct(?string $varSalt = null)
     {
         $this->logName       = 'encryption';
-        $this->extraKey      = $_ENV['STATIC_SALT'];
-        $this->encryptMethod = $_ENV['ENCRYPT_METHOD'];
+        $this->ivLength      = ImmutableVariable::getValue('IVLength');
+        $this->tagLength     = ImmutableVariable::getValue('tagLength');
+        $this->extraKey      = ImmutableVariable::getValue('staticSalt');
+        $this->encryptMethod = ImmutableVariable::getValue('encryptMethod');
         $this->getVarSalt    = $varSalt === null ? $this->encryptIP() : $varSalt;
     }
 
@@ -83,11 +87,9 @@ class Encryption
             throw new \Exception('Invalid base64-encoded data');
         }
 
-        $ivLength   = $_ENV['IV_LENGTH'];
-        $tagLength  = $_ENV['TAG_LENGTH'];
-        $iv = substr($decodedData, 0, $ivLength);
-        $ciphertext = substr($decodedData, $ivLength, -$tagLength);
-        $tag = substr($decodedData, -$tagLength);
+        $iv = substr($decodedData, 0, $this->ivLength);
+        $ciphertext = substr($decodedData, $this->ivLength, -$this->tagLength);
+        $tag = substr($decodedData, -$this->tagLength);
 
         $plaintext = openssl_decrypt($ciphertext, $this->encryptMethod, $key, OPENSSL_RAW_DATA, $iv, $tag);
 

@@ -2,13 +2,15 @@
 
 namespace RPMS\App\Util;
 
+use RPMS\App\Security\ImmutableVariable;
+
 class PhoneNumber {
     
     public static function format(string $phoneNumber): string | bool
     {
         $numLength = strlen($phoneNumber);
-        $countryCode = $_ENV['COUNTRY_CODE'];
-
+        $countryCode = ImmutableVariable::getValue('countryCode');
+        
         if ($numLength < 9 || $numLength > 12) {
             return false;
         }

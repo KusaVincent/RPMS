@@ -3,8 +3,6 @@
 namespace RPMS\App\Notification;
 
 use RPMS\App\Log\LogHandler;
-use RPMS\App\Notification\MobiTechSMS;
-use RPMS\App\Notification\AfricasTalkingSMS;
 
 class SMSHelper {
 
