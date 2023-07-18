@@ -12,5 +12,5 @@ use RPMS\App\Security\SessionManager;
 use RPMS\App\Security\Header\RequestHeader;
 
 Dotenv::createImmutable(__DIR__)->load();
-RequestHeader::setRequestHeader(array('localhost:8000','localhost:8000'));
+RequestHeader::setRequestHeader();
 SessionManager::init(['name' => 'JSESSID', 'cookie_lifetime' => 8000]);

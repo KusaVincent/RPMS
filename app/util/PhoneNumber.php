@@ -8,8 +8,8 @@ class PhoneNumber {
     
     public static function format(string $phoneNumber): string | bool
     {
-        $numLength = strlen($phoneNumber);
-        $countryCode = ImmutableVariable::getValue('countryCode');
+        $numLength   = strlen($phoneNumber);
+        $countryCode = ImmutableVariable::getValueAndDecryptBeforeUse('countryCode');
         
         if ($numLength < 9 || $numLength > 12) {
             return false;
@@ -19,13 +19,13 @@ class PhoneNumber {
 
         switch ($firstLetter) {
             case '0':
-                $formattedPhoneNumber = substr($phoneNumber, 1); // 79*****45
+                $formattedPhoneNumber = substr($phoneNumber, 1);
                 break;
             case '2':
-                $formattedPhoneNumber = substr($phoneNumber, 3); // 79*****45
+                $formattedPhoneNumber = substr($phoneNumber, 3);
                 break;
             case '+':
-                $formattedPhoneNumber = substr($phoneNumber, 4); // 79*****45
+                $formattedPhoneNumber = substr($phoneNumber, 4);
                 break;
             default:
                 if ($numLength !== 9 || $firstLetter !== '7') {
@@ -38,6 +38,6 @@ class PhoneNumber {
             return false;
         }
 
-        return $countryCode . $formattedPhoneNumber; // 25479*****45
+        return $countryCode . $formattedPhoneNumber;
     }
 }

@@ -20,14 +20,8 @@ class EmailHelper extends Email {
     {
         $email = explode('@', $this->senderEmail);
 
-        $emailHost = explode('.', $email[0])[0];
+        $emailHost = explode('.', $email[1])[0];
 
-        // run db... to be done once Database manager works
         return EmailConfigDBData::getMailConfig($emailHost);
-        // return [
-        //     'port' => 465,
-        //     'secure' => 'ssl',
-        //     'host' => 'mail.rentalskonekt.com'
-        // ];
     }
 }

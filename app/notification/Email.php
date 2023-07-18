@@ -32,7 +32,7 @@ class Email
             $this->mailer->Port       = $this->config['port'];
             $this->mailer->SMTPSecure = $this->config['secure'];
         } catch (\Exception $e) {
-            LogHandler::handle($this->logName, 'Failed to configure mailer: ' . $e->getMessage());
+            LogHandler::handle($this->logName, 'Failed to configure mailer for ' . $senderEmail . ': ' . $e->getMessage() . json_encode($this->config));
             throw new \Exception('Failed to configure mailer: ' . $e->getMessage());
         }
     }
@@ -55,7 +55,7 @@ class Email
                     $results[$email] = true;
                 }
             } catch (\Exception $e) {
-                LogHandler::handle($this->logName, 'Failed to send email to ' . $email . ': ' . $e->getMessage());
+                LogHandler::handle($this->logName, 'Failed to send email to ' . $email . ' from ' . $this->sender . ' : ' . $e->getMessage() . json_encode($this->config));
 
                 $results[$email] = false;
             } finally {

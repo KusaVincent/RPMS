@@ -4,20 +4,21 @@ namespace RPMS\App\Notification;
 
 use RPMS\App\Util\Curl;
 use RPMS\App\Log\LogHandler;
+use RPMS\App\Security\ImmutableVariable;
 
 class MobiTechSMS
 {
     private string $apiKey;
-    private string $baseUrl;
     private string $logName;
     private string $senderName;
+    private string $mobitechBaseUrl;
 
     public function __construct(string $senderName, string $apiKey)
     {
-        $this->apiKey     = $apiKey;
-        $this->senderName = $senderName;
-        $this->logName    = 'mobitech-sms';
-        $this->baseUrl    = "https://api.mobitechtechnologies.com/sms/sendsms";
+        $this->apiKey           = $apiKey;
+        $this->senderName       = $senderName;
+        $this->logName          = 'mobitech-sms';
+        $this->mobitechBaseUrl  = ImmutableVariable::getValueAndDecryptBeforeUse('mobitechBaseUrl');
     }
 
     public function send(array $recipients, array | string $messages): array
@@ -52,7 +53,7 @@ class MobiTechSMS
             ];
 
             try {
-                $response = Curl::call($this->baseUrl, $curlHeader, 'post', $payload);
+                $response = Curl::call($this->mobitechBaseUrl, $curlHeader, 'post', $payload);
                 $results[$mobile] = $response;
             } catch (\Exception $e) {
                 LogHandler::handle($this->logName, "SMS sending failed to $mobile: " . $e->getMessage());

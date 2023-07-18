@@ -10,14 +10,20 @@ class RequestHeader
     private static string $life;
     private static string $baseURI;
     private static string $baseURL;
+    private static string $methodArray;
+    private static string $allowedOrigins;
 
-    public static function setRequestHeader(array $allowedOrigins = [], bool $api = false): void
+    public static function setRequestHeader(bool $api = false): void
     {
-        self::$baseURI = ImmutableVariable::getValue('baseURI');
-        self::$baseURL = ImmutableVariable::getValue('baseURL');
-        self::$life    = ImmutableVariable::getValueAndDecryptBeforeUse('life');
+        self::$life     = ImmutableVariable::getValueAndDecryptBeforeUse('life');
+        self::$baseURI  = ImmutableVariable::getValueAndDecryptBeforeUse('baseURI');
+        self::$baseURL  = ImmutableVariable::getValueAndDecryptBeforeUse('baseURL');
 
-        $methodArray = ['GET', 'PUT', 'POST', 'DELETE'];
+        self::$methodArray    = ImmutableVariable::getValueAndDecryptBeforeUse('methodArray');
+        self::$allowedOrigins = ImmutableVariable::getValueAndDecryptBeforeUse('allowedOrigins');
+
+        $methodArray    = explode(',', self::$methodArray);
+        $allowedOrigins = explode(',', self::$allowedOrigins);
         
         $method = in_array($_SERVER['REQUEST_METHOD'], $methodArray) ? $_SERVER['REQUEST_METHOD'] : false;
         $origin = isset($_SERVER['HTTP_ORIGIN']) && in_array($_SERVER['HTTP_ORIGIN'], $allowedOrigins) ? $_SERVER['HTTP_ORIGIN'] : self::$baseURI;

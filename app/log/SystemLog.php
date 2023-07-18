@@ -17,9 +17,9 @@ class SystemLog
         $name = ucfirst($name);
         
         $this->log     = new Logger($name);
-        $this->logPath = ImmutableVariable::getValue('logPath');
+        $this->logPath = ImmutableVariable::getValueAndDecryptBeforeUse('logPath');
 
-        $this->log->pushHandler(new RotatingFileHandler(filename: __DIR__ . $this->logPath . $filename . '.log', level: $logLevel));
+        $this->log->pushHandler(new RotatingFileHandler(filename: $this->logPath . $filename . '.log', level: $logLevel));
     }
 
     public static function log(string $message): void

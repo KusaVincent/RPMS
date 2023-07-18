@@ -3,26 +3,40 @@
 namespace RPMS\App\Notification;
 
 use RPMS\App\Log\LogHandler;
+use RPMS\App\Security\ImmutableVariable;
 
 class SMSHelper {
+    private static string $mobitechApiKey;
+    private static string $mobitechSenderName;
+
+    private static string $africasTalkingApiKey;
+    private static string $africasTalkingUserName;
+
+    private static function init()
+    {
+        self::$mobitechApiKey         = ImmutableVariable::getValueAndDecryptBeforeUse('mobitechApiKey');
+        self::$mobitechSenderName     = ImmutableVariable::getValueAndDecryptBeforeUse('mobitechSenderName');
+        self::$africasTalkingApiKey   = ImmutableVariable::getValueAndDecryptBeforeUse('africasTalkingApiKey');
+        self::$africasTalkingUserName = ImmutableVariable::getValueAndDecryptBeforeUse('africasTalkingUserName');
+    }
 
     public static function sendSMS(
-        string $name, 
-        string $apiKey, 
         array $recipients, 
         array | string $message, 
         string $merchant = 'ATS'
     ) : array
     {
-        if($merchant === 'MTS') return self::mobiTechSMS($name, $apiKey, $recipients, $message);
+        self::init();
 
-        return self::africasTalkingSMS($name, $apiKey, $recipients, $message);
+        if($merchant === 'MTS') return self::mobiTechSMS($recipients, $message);
+
+        return self::africasTalkingSMS($recipients, $message);
     }
 
-    private static function mobiTechSMS(string $name, string $apiKey, array $recipients, array | string $message)
+    private static function mobiTechSMS(array $recipients, array | string $message)
     {
         $response   = [];
-        $smsSender  = new MobiTechSMS($name, $apiKey);
+        $smsSender  = new MobiTechSMS(self::$mobitechSenderName, self::$mobitechApiKey);
 
         try {
             $results = $smsSender->send($recipients, $message);
@@ -41,10 +55,10 @@ class SMSHelper {
         }
     }
 
-    private static function africasTalkingSMS(string $name, string $apiKey, array $recipients, array | string $message) 
+    private static function africasTalkingSMS(array $recipients, array | string $message) 
     {
         $response  = [];
-        $smsSender = new AfricasTalkingSMS($name, $apiKey);
+        $smsSender = new AfricasTalkingSMS(self::$africasTalkingUserName, self::$africasTalkingApiKey);
 
         try {
             $results = $smsSender->send($recipients, $message);

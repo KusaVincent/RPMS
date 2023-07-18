@@ -31,12 +31,12 @@ class Mpesa
         $this->accessToken      = $this->generateAccessToken();
         $this->currentTimestamp = Carbon::now()->format('YmdHms');
 
-        $this->tokenURL         = ImmutableVariable::getValue('tokenURL');
-        $this->queryURL         = ImmutableVariable::getValue('queryURL');
-        $this->endpointURL      = ImmutableVariable::getValue('endpointURL');
-        $this->callbackURL      = ImmutableVariable::getValue('callbackURL');
         $this->mpesaSaltedIV    = ImmutableVariable::getValue('mpesaSaltedIV');
-        $this->safaricomBaseURL = ImmutableVariable::getValue('safaricomBaseURL');
+        $this->tokenURL         = ImmutableVariable::getValueAndDecryptBeforeUse('tokenURL');
+        $this->queryURL         = ImmutableVariable::getValueAndDecryptBeforeUse('queryURL');
+        $this->endpointURL      = ImmutableVariable::getValueAndDecryptBeforeUse('endpointURL');
+        $this->callbackURL      = ImmutableVariable::getValueAndDecryptBeforeUse('callbackURL');
+        $this->safaricomBaseURL = ImmutableVariable::getValueAndDecryptBeforeUse('safaricomBaseURL');
     }
 
     private function lipaNaMpesaPassword(int $businessShortCode, string $passKey): string
