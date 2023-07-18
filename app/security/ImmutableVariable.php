@@ -6,11 +6,14 @@ use RPMS\App\Log\LogHandler;
 use RPMS\App\Model\DatabaseManager;
 
 class ImmutableVariable {
+    private static string $logName;
     private static array $dotEnvValue;
     private static array $databaseValue;
 
     public static function init()
     {
+        self::$logName     = 'static-variables';
+
         self::$dotEnvValue = [
             'life'             => $_ENV['LIFE'],
             'dbName'           => $_ENV['DB_NAME'],
@@ -41,6 +44,20 @@ class ImmutableVariable {
         ];
     }
 
+    public static function getValueAndDecryptBeforeUse(string $variable) : string
+    {
+        $output = self::getValue($variable);
+
+        try {
+            $valueOutput = Encryption::salt(self::getValue('staticSalt'))->decrypt($output);
+        }catch (\Exception $e) {
+            LogHandler::handle(self::$logName, $e->getMessage());
+            $valueOutput = $output;
+        }
+
+        return $valueOutput;
+    }
+
     public static function getValue(string $variable) : string
     {
         self::init();
@@ -49,7 +66,8 @@ class ImmutableVariable {
 
         if (array_key_exists($variable, self::$databaseValue)) return self::getValueFromDatabase($variable);
 
-        LogHandler::handle('staic-variables', "key ($variable) entered not found");
+        LogHandler::handle(self::$logName, "key ($variable) entered not found");
+        
         return $variable;
     }
 

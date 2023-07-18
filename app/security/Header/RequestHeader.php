@@ -13,9 +13,9 @@ class RequestHeader
 
     public static function setRequestHeader(array $allowedOrigins = [], bool $api = false): void
     {
-        self::$life    = ImmutableVariable::getValue('life');
         self::$baseURI = ImmutableVariable::getValue('baseURI');
         self::$baseURL = ImmutableVariable::getValue('baseURL');
+        self::$life    = ImmutableVariable::getValueAndDecryptBeforeUse('life');
 
         $methodArray = ['GET', 'PUT', 'POST', 'DELETE'];
         

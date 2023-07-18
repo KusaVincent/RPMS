@@ -14,11 +14,11 @@ class DatabaseManager extends PdoOneORM {
     private string $dbPassword;
 
     public function __construct() {
-        $this->dbHost     = ImmutableVariable::getValue('dbHost');
-        $this->dbName     = ImmutableVariable::getValue('dbName');
-        $this->dbDriver   = ImmutableVariable::getValue('dbDriver');
-        $this->dbUsername = ImmutableVariable::getValue('dbUsername');
-        $this->dbPassword = ImmutableVariable::getValue('dbPassword');
+        $this->dbHost     = ImmutableVariable::getValueAndDecryptBeforeUse('dbHost');
+        $this->dbName     = ImmutableVariable::getValueAndDecryptBeforeUse('dbName');
+        $this->dbDriver   = ImmutableVariable::getValueAndDecryptBeforeUse('dbDriver');
+        $this->dbUsername = ImmutableVariable::getValueAndDecryptBeforeUse('dbUsername');
+        $this->dbPassword = ImmutableVariable::getValueAndDecryptBeforeUse('dbPassword');
 
         parent::__construct($this->dbDriver, $this->dbHost, $this->dbUsername, $this->dbPassword, $this->dbName);
         parent::connect();
