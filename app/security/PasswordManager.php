@@ -3,6 +3,7 @@
 namespace RPMS\App\Security;
 
 use Hautelook\Phpass\PasswordHash;
+use RPMS\App\Security\ImmutableVariable;
 
 class PasswordManager
 {
@@ -10,11 +11,11 @@ class PasswordManager
     private object $hasher;
     private string $pepper;
 
-    public function __construct(string $salt, string $pepper)
+    public function __construct(string $salt)
     {
         $this->salt   = $salt;
-        $this->pepper = $pepper;
         $this->hasher = new PasswordHash(11, false);
+        $this->pepper = ImmutableVariable::getValueAndDecryptBeforeUse('passwordPepper');
     }
 
     public function hashPassword(string $password) : string

@@ -25,7 +25,8 @@ class ImmutableVariable {
             'dbPassword'       => $_ENV['DB_PASSWORD'],
             'dbUsername'       => $_ENV['DB_USERNAME'],
             'encryptMethod'    => $_ENV['ENCRYPT_METHOD'],
-            'mpesaSaltedIV'    => $_ENV['MPESA_SALTED_IV']
+            'mpesaSaltedIV'    => $_ENV['MPESA_SALTED_IV'],
+            'passwordPepper'   => $_ENV['PASSWORD_PEPPER']
         ];
 
         self::$databaseValue = [
