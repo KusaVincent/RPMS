@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace RPMS\App\Report;
 
@@ -63,7 +64,7 @@ class ExcelReport
                 HeaderSetting::setHeader('Cache-Control', 'private, max-age=0, must-revalidate');
                 HeaderSetting::setHeader('Pragma', 'public');
                 HeaderSetting::setHeader('Content-Transfer-Encoding', 'binary');
-                HeaderSetting::setHeader('Content-Length', filesize($this->filename));
+                HeaderSetting::setHeader('Content-Length', (string) filesize($this->filename));
     
                 readfile($this->filename);
             } else {

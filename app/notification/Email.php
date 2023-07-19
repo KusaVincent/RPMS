@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 namespace RPMS\App\Notification;
 
 use RPMS\App\Log\LogHandler;

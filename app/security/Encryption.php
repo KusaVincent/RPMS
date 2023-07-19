@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace RPMS\App\Security;
 
@@ -6,20 +7,20 @@ use RPMS\App\Log\LogHandler;
 
 class Encryption
 {
+    private int $ivLength;
+    private int $tagLength;
     private string $logName;
-    private string $ivLength;
     private string $extraKey;
-    private string $tagLength;
     private string $getVarSalt;
     private string $encryptMethod;
 
     public function __construct(?string $varSalt = null)
     {
         $this->logName       = 'encryption';
-        $this->ivLength      = ImmutableVariable::getValue('IVLength');
-        $this->tagLength     = ImmutableVariable::getValue('tagLength');
         $this->extraKey      = ImmutableVariable::getValue('staticSalt');
         $this->encryptMethod = ImmutableVariable::getValue('encryptMethod');
+        $this->ivLength      = (int) ImmutableVariable::getValue('IVLength');
+        $this->tagLength     = (int) ImmutableVariable::getValue('tagLength');
         $this->getVarSalt    = $varSalt === null ? $this->encryptIP() : $varSalt;
     }
 
