@@ -3,7 +3,7 @@
 namespace RPMS\App\Security;
 
 use RPMS\App\Log\LogHandler;
-use RPMS\App\Model\DatabaseManager;
+use RPMS\App\Model\ImmutableModel;
 
 class ImmutableVariable {
     private static string $logName;
@@ -85,8 +85,8 @@ class ImmutableVariable {
     private static function getValueFromDatabase(string $variable) : string
     {
         $columnValue    = self::$databaseValue[$variable];
-        $returnedValue  =  DatabaseManager::executeSelect("SELECT VALUE FROM APPLICATION_SETTINGS WHERE NAME = ?", [$columnValue]);
+        $returnedValue  = ImmutableModel::getValue($columnValue);
 
-        return $returnedValue[0]['VALUE'];
+        return $returnedValue;
     }
 }

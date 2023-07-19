@@ -4,7 +4,7 @@ namespace RPMS\App\Model;
 
 use RPMS\App\Model\DatabaseManager;
 
-class EmailConfigDBData {
+class EmailConfigModel {
     public static function getMailConfig(string $emailHost) : array
     {
         $emailData = DatabaseManager::executeSelect("SELECT HOST, PORT, SECURE FROM EMAIL_CONFIG WHERE NAME = ?", [$emailHost]);

@@ -2,7 +2,7 @@
 
 namespace RPMS\App\Notification;
 
-use RPMS\App\Model\EmailConfigDBData;
+use RPMS\App\Model\EmailConfigModel;
 
 class EmailHelper extends Email {
     private string $senderEmail;
@@ -22,6 +22,6 @@ class EmailHelper extends Email {
 
         $emailHost = explode('.', $email[1])[0];
 
-        return EmailConfigDBData::getMailConfig($emailHost);
+        return EmailConfigModel::getMailConfig($emailHost);
     }
 }
