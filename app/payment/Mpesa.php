@@ -6,8 +6,7 @@ namespace RPMS\App\Payment;
 use Carbon\Carbon;
 use RPMS\App\Util\Curl;
 use RPMS\App\Log\LogHandler;
-use RPMS\App\Security\Encryption;
-use RPMS\App\Security\ImmutableVariable;
+use RPMS\App\Security\{Encryption, ImmutableVariable};
 
 class Mpesa
 {

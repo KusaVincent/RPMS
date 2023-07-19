@@ -11,7 +11,7 @@ class ImmutableVariable {
     private static array $dotEnvValue;
     private static array $databaseValue;
 
-    public static function init()
+    public static function init() : void
     {
         self::$logName     = 'static-variables';
 

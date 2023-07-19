@@ -13,6 +13,7 @@ class DatabaseManager extends PdoOneORM {
     private string $dbDriver;
     private string $dbUsername;
     private string $dbPassword;
+    private static ?self $databaseInstance = null;
 
     public function __construct() {
         $this->dbHost     = ImmutableVariable::getValueAndDecryptBeforeUse('dbHost');
@@ -28,8 +29,9 @@ class DatabaseManager extends PdoOneORM {
     //for debugging
     public function checkConnection() {
         try {
-            $databaseManager = new self();
+            $databaseManager = self::getInstance();
             $connected = $databaseManager->connect();
+            
             if(!$connected){
                 LogHandler::handle('Database', "Failed to connect to the database" .  $connected);
                 return false;
@@ -42,10 +44,19 @@ class DatabaseManager extends PdoOneORM {
         }
     }
 
+    public static function getInstance(): self
+    {
+        if (self::$databaseInstance === null) {
+            self::$databaseInstance = new self();
+        }
+
+        return self::$databaseInstance;
+    }
+
     public static function executeSelect(string $sql, array $params = []) : array | bool
     {
         try {
-            $databaseManager = new self();
+            $databaseManager = self::getInstance();
             return $databaseManager->runRawQuery($sql, $params);
         } catch (\Exception $e) {
             LogHandler::handle('Database', "Failed to execute the query: " . $e->getMessage());
@@ -56,7 +67,7 @@ class DatabaseManager extends PdoOneORM {
     public static function executeInsert(string $table, array $data) : bool | int
     {
         try {
-            $databaseManager = new self();
+            $databaseManager = self::getInstance();
             $result = $databaseManager->insert($table, $data);
             return $result;
         } catch (\Exception $e) {
@@ -68,7 +79,7 @@ class DatabaseManager extends PdoOneORM {
     public static function executeUpdate(string $table, array $data, array $where) : bool| int
     {
         try {
-            $databaseManager = new self();
+            $databaseManager = self::getInstance();
             $result = $databaseManager->update($table, $data, $where);
             return $result;
         } catch (\Exception $e) {
@@ -80,7 +91,7 @@ class DatabaseManager extends PdoOneORM {
     public static function executeDelete(string $table, ?array $where) : bool | int
     {
         try {
-            $databaseManager = new self();
+            $databaseManager = self::getInstance();
             $result = $databaseManager->delete($table, $where);
             return $result;
         } catch (\Exception $e) {

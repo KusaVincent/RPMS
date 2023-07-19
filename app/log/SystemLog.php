@@ -3,10 +3,9 @@ declare(strict_types=1);
 
 namespace RPMS\App\Log;
 
-use Monolog\Level;
-use Monolog\Logger;
-use RPMS\App\Security\ImmutableVariable;
+use Monolog\{Level, Logger};
 use Monolog\Handler\RotatingFileHandler;
+use RPMS\App\Security\ImmutableVariable;
 
 class SystemLog
 {

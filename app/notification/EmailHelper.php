@@ -14,10 +14,10 @@ class EmailHelper extends Email {
         $this->senderEmail    = $senderEmail;
         $this->senderPassword = $senderPassword;
 
-        parent::__construct($this->senderEmail, $this->senderPassword, $this->emailConfig());
+        parent::__construct($this->senderEmail, $this->senderPassword, $this->config());
     }
 
-    private function emailConfig() : array
+    private function config() : array
     {
         $email = explode('@', $this->senderEmail);
 

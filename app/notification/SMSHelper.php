@@ -13,7 +13,7 @@ class SMSHelper {
     private static string $africasTalkingApiKey;
     private static string $africasTalkingUserName;
 
-    private static function init()
+    private static function init() : void
     {
         self::$mobitechApiKey         = ImmutableVariable::getValueAndDecryptBeforeUse('mobitechApiKey');
         self::$mobitechSenderName     = ImmutableVariable::getValueAndDecryptBeforeUse('mobitechSenderName');
@@ -34,7 +34,7 @@ class SMSHelper {
         return self::africasTalkingSMS($recipients, $message);
     }
 
-    private static function mobiTechSMS(array $recipients, array | string $message)
+    private static function mobiTechSMS(array $recipients, array | string $message) : array
     {
         $response   = [];
         $smsSender  = new MobiTechSMS(self::$mobitechSenderName, self::$mobitechApiKey);
@@ -56,7 +56,7 @@ class SMSHelper {
         }
     }
 
-    private static function africasTalkingSMS(array $recipients, array | string $message) 
+    private static function africasTalkingSMS(array $recipients, array | string $message)  : array
     {
         $response  = [];
         $smsSender = new AfricasTalkingSMS(self::$africasTalkingUserName, self::$africasTalkingApiKey);

@@ -4,10 +4,9 @@ declare(strict_types=1);
 namespace RPMS\App\Report;
 
 use RPMS\App\Log\LogHandler;
-use PhpOffice\PhpSpreadsheet\Writer\Csv;
-use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use RPMS\App\Security\Header\HeaderSetting;
+use PhpOffice\PhpSpreadsheet\Writer\{Xlsx, Csv};
 
 class ExcelReport
 {
