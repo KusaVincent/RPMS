@@ -22,6 +22,6 @@ class EmailHelper extends Email {
 
         $emailHost = explode('.', $email[1])[0];
 
-        return EmailConfigModel::getMailConfig($emailHost);
+        return EmailConfigModel::getConfig($emailHost);
     }
 }
