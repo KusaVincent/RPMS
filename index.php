@@ -8,9 +8,8 @@ ini_set('display_startup_errors', '1');
 error_reporting(E_ALL);
 
 use Dotenv\Dotenv;
-use App\Security\SessionManager;
-use App\Security\ImmutableVariable;
 use App\Security\Header\RequestHeader;
+use App\Security\{SessionManager, ImmutableVariable};
 
 define('BASE_PATH', __DIR__);
 define('LOG_PATH', BASE_PATH . '/logs/');
