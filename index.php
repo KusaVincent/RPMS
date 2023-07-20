@@ -7,21 +7,19 @@ ini_set('display_error', '1');
 ini_set('display_startup_errors', '1');
 error_reporting(E_ALL);
 
-use App\Controller\OwnerController;
 use Dotenv\Dotenv;
 use App\Security\SessionManager;
+use App\Security\ImmutableVariable;
 use App\Security\Header\RequestHeader;
-use App\Util\IdGenerator;
 
 define('BASE_PATH', __DIR__);
 define('LOG_PATH', BASE_PATH . '/logs/');
 
 Dotenv::createImmutable(BASE_PATH)->load();
 RequestHeader::setRequestHeader(true);
-SessionManager::init(['name' => 'JSESSID', 'cookie_lifetime' => 8000]);
-
-$array = [
-
-];
-
-echo json_encode(OwnerController::login($array));
+SessionManager::init(
+    [
+        'name' => 'JSESSID', 
+        'cookie_lifetime' => ImmutableVariable::getValueAndDecryptBeforeUse('cookieLife')
+    ]
+);
