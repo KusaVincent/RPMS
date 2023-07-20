@@ -8,17 +8,17 @@ use App\Security\ImmutableVariable;
 
 class RequestHeader
 {
-    private static string $life;
     private static string $baseURI;
     private static string $baseURL;
+    private static string $cookieLife;
     private static string $methodArray;
     private static string $allowedOrigins;
 
     public static function setRequestHeader(bool $api = false): void
     {
-        self::$life     = ImmutableVariable::getValueAndDecryptBeforeUse('life');
-        self::$baseURI  = ImmutableVariable::getValueAndDecryptBeforeUse('baseURI');
-        self::$baseURL  = ImmutableVariable::getValueAndDecryptBeforeUse('baseURL');
+        self::$baseURI    = ImmutableVariable::getValueAndDecryptBeforeUse('baseURI');
+        self::$baseURL    = ImmutableVariable::getValueAndDecryptBeforeUse('baseURL');
+        self::$cookieLife = ImmutableVariable::getValueAndDecryptBeforeUse('cookieLife');
 
         self::$methodArray    = ImmutableVariable::getValueAndDecryptBeforeUse('methodArray');
         self::$allowedOrigins = ImmutableVariable::getValueAndDecryptBeforeUse('allowedOrigins');
@@ -35,8 +35,8 @@ class RequestHeader
         ini_set('session.cookie_samesite', 'Lax');
         ini_set('session.use_only_cookies', true);
         ini_set('session.user_strict_mode', true);
-        ini_set('session.gc_maxlifetime', self::$life);
-        ini_set('session.cookie_lifetime', self::$life);
+        ini_set('session.gc_maxlifetime', self::$cookieLife);
+        ini_set('session.cookie_lifetime', self::$cookieLife);
         ini_set('session.cookie_domain', $_SERVER['HTTP_HOST']);
 
         if($api) {

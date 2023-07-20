@@ -16,7 +16,6 @@ class ImmutableVariable {
         self::$logName     = 'static-variables';
 
         self::$dotEnvValue = [
-            'life'             => $_ENV['LIFE'],
             'dbName'           => $_ENV['DB_NAME'],
             'dbHost'           => $_ENV['DB_HOST'],
             'dbDriver'         => $_ENV['DB_DRIVER'],
@@ -25,6 +24,7 @@ class ImmutableVariable {
             'staticSalt'       => $_ENV['STATIC_SALT'],
             'dbPassword'       => $_ENV['DB_PASSWORD'],
             'dbUsername'       => $_ENV['DB_USERNAME'],
+            'cookieLife'       => $_ENV['COOKIE_LIFE'],
             'encryptMethod'    => $_ENV['ENCRYPT_METHOD'],
             'mpesaSaltedIV'    => $_ENV['MPESA_SALTED_IV'],
             'passwordPepper'   => $_ENV['PASSWORD_PEPPER']
