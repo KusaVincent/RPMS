@@ -1,11 +1,11 @@
 <?php
 declare(strict_types=1);
 
-namespace RPMS\App\Report;
+namespace App\Report;
 
 use Dompdf\Dompdf;
-use RPMS\App\Log\LogHandler;
-use RPMS\App\Security\Header\HeaderSetting;
+use App\Log\LogHandler;
+use App\Security\Header\HeaderSetting;
 
 class PDFReport
 {

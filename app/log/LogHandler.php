@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace RPMS\App\Log;
+namespace App\Log;
 
 class LogHandler extends SystemLog
 {

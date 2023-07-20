@@ -1,10 +1,10 @@
 <?php
 declare(strict_types=1);
 
-namespace RPMS\App\Security\Header;
+namespace App\Security\Header;
 
-use RPMS\App\Log\LogHandler;
-use RPMS\App\Security\ImmutableVariable;
+use App\Log\LogHandler;
+use App\Security\ImmutableVariable;
 
 class RequestHeader
 {

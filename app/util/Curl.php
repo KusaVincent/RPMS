@@ -1,9 +1,9 @@
 <?php
 declare(strict_types=1);
 
-namespace RPMS\App\Util;
+namespace App\Util;
 
-use RPMS\App\Log\LogHandler;
+use App\Log\LogHandler;
 
 class Curl
 {

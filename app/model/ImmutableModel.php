@@ -1,9 +1,9 @@
 <?php
 declare(strict_types=1);
 
-namespace RPMS\App\Model;
+namespace App\Model;
 
-use RPMS\App\Model\DatabaseManager;
+use App\Model\DatabaseManager;
 
 class ImmutableModel {
     public static function getValue(string $columnValue) : string

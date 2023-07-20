@@ -1,11 +1,11 @@
 <?php
 declare(strict_types=1);
 
-namespace RPMS\App\Model;
+namespace App\Model;
 
 use eftec\PdoOneORM;
-use RPMS\App\Log\LogHandler;
-use RPMS\App\Security\ImmutableVariable;
+use App\Log\LogHandler;
+use App\Security\ImmutableVariable;
 
 class DatabaseManager extends PdoOneORM {
     private string $dbHost;
@@ -44,7 +44,7 @@ class DatabaseManager extends PdoOneORM {
         }
     }
 
-    public static function getInstance(): self
+    private static function getInstance(): self
     {
         if (self::$databaseInstance === null) {
             self::$databaseInstance = new self();

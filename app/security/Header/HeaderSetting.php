@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace RPMS\App\Security\Header;
+namespace App\Security\Header;
 
 class HeaderSetting
 {

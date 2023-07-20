@@ -1,9 +1,9 @@
 <?php
 declare(strict_types=1);
 
-namespace RPMS\App\Notification;
+namespace App\Notification;
 
-use RPMS\App\Log\LogHandler;
+use App\Log\LogHandler;
 use PHPMailer\PHPMailer\PHPMailer;
 
 class Email

@@ -1,10 +1,10 @@
 <?php
 declare(strict_types=1);
 
-namespace RPMS\App\Notification;
+namespace App\Notification;
 
-use RPMS\App\Log\LogHandler;
-use RPMS\App\Security\ImmutableVariable;
+use App\Log\LogHandler;
+use App\Security\ImmutableVariable;
 
 class SMSHelper {
     private static string $mobitechApiKey;

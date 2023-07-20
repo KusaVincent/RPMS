@@ -1,10 +1,10 @@
 <?php
 declare(strict_types=1);
 
-namespace RPMS\App\Security;
+namespace App\Security;
 
-use RPMS\App\Log\LogHandler;
-use RPMS\App\Model\ImmutableModel;
+use App\Log\LogHandler;
+use App\Model\ImmutableModel;
 
 class ImmutableVariable {
     private static string $logName;
@@ -33,7 +33,6 @@ class ImmutableVariable {
         self::$databaseValue = [
             'baseURI'               => 'BaseURI',
             'baseURL'               => 'BaseURL',
-            'logPath'               => 'LogPath',
             'appName'               => 'AppName',
             'tokenURL'              => 'TokenURL',
             'queryURL'              => 'QueryURL',

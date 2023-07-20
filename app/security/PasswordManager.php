@@ -1,10 +1,10 @@
 <?php
 declare(strict_types=1);
 
-namespace RPMS\App\Security;
+namespace App\Security;
 
 use Hautelook\Phpass\PasswordHash;
-use RPMS\App\Security\ImmutableVariable;
+use App\Security\ImmutableVariable;
 
 class PasswordManager
 {

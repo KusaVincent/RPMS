@@ -1,11 +1,11 @@
 <?php
 declare(strict_types=1);
 
-namespace RPMS\App\Report;
+namespace App\Report;
 
-use RPMS\App\Log\LogHandler;
+use App\Log\LogHandler;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
-use RPMS\App\Security\Header\HeaderSetting;
+use App\Security\Header\HeaderSetting;
 use PhpOffice\PhpSpreadsheet\Writer\{Xlsx, Csv};
 
 class ExcelReport

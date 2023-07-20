@@ -1,11 +1,10 @@
 <?php
 declare(strict_types=1);
 
-namespace RPMS\App\Log;
+namespace App\Log;
 
 use Monolog\{Level, Logger};
 use Monolog\Handler\RotatingFileHandler;
-use RPMS\App\Security\ImmutableVariable;
 
 class SystemLog
 {
@@ -16,8 +15,8 @@ class SystemLog
     {
         $name = ucfirst($name);
         
+        $this->logPath = LOG_PATH;
         $this->log     = new Logger($name);
-        $this->logPath = ImmutableVariable::getValueAndDecryptBeforeUse('logPath');
 
         $this->log->pushHandler(new RotatingFileHandler(filename: $this->logPath . $filename . '.log', level: $logLevel));
     }
@@ -25,7 +24,7 @@ class SystemLog
     public static function log(string $message): void
     {
         $log = new Logger('log-error');
-        $log->pushHandler(new RotatingFileHandler(filename: __DIR__ . '-' . 'logger' . '.log', level:  Level::Error));
+        $log->pushHandler(new RotatingFileHandler(filename: LOG_PATH . '-' . 'logger' . '.log', level:  Level::Error));
         $log->error($message);
     }
     

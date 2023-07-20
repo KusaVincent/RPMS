@@ -1,9 +1,9 @@
 <?php
 declare(strict_types=1);
 
-namespace RPMS\App\Notification;
+namespace App\Notification;
 
-use RPMS\App\Model\EmailConfigModel;
+use App\Model\EmailConfigModel;
 
 class EmailHelper extends Email {
     private string $senderEmail;

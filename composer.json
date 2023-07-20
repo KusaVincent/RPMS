@@ -4,14 +4,14 @@
     "type": "project",
     "autoload": {
         "psr-4": {
-            "RPMS\\App\\": "app/",
-            "RPMS\\App\\Log\\": "app/log/",
-            "RPMS\\App\\Util\\": "app/util/",
-            "RPMS\\App\\Model\\": "app/model/",
-            "RPMS\\App\\Report\\": "app/report/",
-            "RPMS\\App\\Payment\\": "app/payment/",
-            "RPMS\\App\\Security\\": "app/security/",
-            "RPMS\\App\\Notification\\": "app/notification/"
+            "App\\": "app/",
+            "App\\Log\\": "app/log/",
+            "App\\Util\\": "app/util/",
+            "App\\Model\\": "app/model/",
+            "App\\Report\\": "app/report/",
+            "App\\Payment\\": "app/payment/",
+            "App\\Security\\": "app/security/",
+            "App\\Notification\\": "app/notification/"
         }
     },
     "authors": [

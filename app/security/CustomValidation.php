@@ -1,9 +1,9 @@
 <?php
 declare(strict_types=1);
 
-namespace RPMS\App\Security;
+namespace App\Security;
 
-use RPMS\App\Log\LogHandler;
+use App\Log\LogHandler;
 use Rakit\Validation\Validator;
 
 class CustomValidation

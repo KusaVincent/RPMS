@@ -1,12 +1,12 @@
 <?php
 declare(strict_types=1);
 
-namespace RPMS\App\Payment;
+namespace App\Payment;
 
 use Carbon\Carbon;
-use RPMS\App\Util\Curl;
-use RPMS\App\Log\LogHandler;
-use RPMS\App\Security\{Encryption, ImmutableVariable};
+use App\Util\Curl;
+use App\Log\LogHandler;
+use App\Security\{Encryption, ImmutableVariable};
 
 class Mpesa
 {

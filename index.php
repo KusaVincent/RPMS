@@ -8,9 +8,12 @@ ini_set('display_startup_errors', '1');
 error_reporting(E_ALL);
 
 use Dotenv\Dotenv;
-use RPMS\App\Security\SessionManager;
-use RPMS\App\Security\Header\RequestHeader;
+use App\Security\SessionManager;
+use App\Security\Header\RequestHeader;
 
-Dotenv::createImmutable(__DIR__)->load();
+define('BASE_PATH', __DIR__);
+define('LOG_PATH', BASE_PATH . '/logs/');
+
+Dotenv::createImmutable(BASE_PATH)->load();
 RequestHeader::setRequestHeader();
 SessionManager::init(['name' => 'JSESSID', 'cookie_lifetime' => 8000]);
