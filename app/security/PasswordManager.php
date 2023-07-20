@@ -16,7 +16,7 @@ class PasswordManager
     {
         $this->salt   = $salt;
         $this->hasher = new PasswordHash(11, false);
-        $this->pepper = ImmutableVariable::getValueAndDecryptBeforeUse('passwordPepper');
+        $this->pepper = ImmutableVariable::getValue('passwordPepper');
     }
 
     public function hashPassword(string $password) : string

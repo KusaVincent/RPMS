@@ -7,6 +7,7 @@ ini_set('display_error', '1');
 ini_set('display_startup_errors', '1');
 error_reporting(E_ALL);
 
+use App\Controller\OwnerController;
 use Dotenv\Dotenv;
 use App\Security\Header\RequestHeader;
 use App\Security\{SessionManager, ImmutableVariable};

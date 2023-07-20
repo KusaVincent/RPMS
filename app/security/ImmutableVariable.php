@@ -18,6 +18,7 @@ class ImmutableVariable {
         self::$dotEnvValue = [
             'dbName'           => $_ENV['DB_NAME'],
             'dbHost'           => $_ENV['DB_HOST'],
+            'idString'         => $_ENV['ID_STRING'],
             'dbDriver'         => $_ENV['DB_DRIVER'],
             'IVLength'         => $_ENV['IV_LENGTH'],
             'tagLength'        => $_ENV['TAG_LENGTH'],
@@ -57,7 +58,7 @@ class ImmutableVariable {
         try {
             $valueOutput = Encryption::salt(self::getValue('staticSalt'))->decrypt($output);
         }catch (\Exception $e) {
-            LogHandler::handle(self::$logName, $e->getMessage());
+            LogHandler::handle(self::$logName, $variable . ': ' . $e->getMessage());
             $valueOutput = $output;
         }
 

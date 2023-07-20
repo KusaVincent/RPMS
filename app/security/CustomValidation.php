@@ -4,6 +4,8 @@ declare(strict_types=1);
 namespace App\Security;
 
 use App\Log\LogHandler;
+use App\Model\ValidationModel;
+use App\Util\PhoneNumber;
 use Rakit\Validation\Validator;
 
 class CustomValidation
@@ -31,20 +33,33 @@ class CustomValidation
         return true;
     }
 
-    public static function validateUserRegistration(array $values) : bool
-    {
+    public static function validateOwnerRegistration(array $values) : bool
+    {        
+        $email    = $values['EMAIL'];
+        $domain   = substr($email, strpos($email, '@') + 1);
+        $phone    = PhoneNumber::format($values['PHONE_NUMBER']);
+
+        if(!$phone) throw new \Exception('Enter a valid phone number');
+        if(!checkdnsrr($domain, 'MX')) throw new \Exception('Enter a valid email');
+        if(ValidationModel::email($email, 'OWNER'))  throw new \Exception('Email is not unique');
+        if(ValidationModel::phone($phone, 'OWNER'))  throw new \Exception('Phone number is not unique');
+        if(ValidationModel::idNumber($values['ID_NUMBER'], 'OWNER'))  throw new \Exception('ID number is not unique');
+
         $rules = [
-            'name'      => 'required',
-            'email'     => 'required|email',
-            'password'  => 'required|min:6',
-            'confirm_password' => 'required|same:password'
+            'LAST_NAME'        => 'required',
+            'FIRST_NAME'       => 'required',
+            'PASSWORD'         => 'required|min:6',
+            'EMAIL'            => 'required|email',
+            'ID_NUMBER'        => 'required|numeric',
+            'PHONE_NUMBER'     => 'required|numeric',
+            'CONFIRM_PASSWORD' => 'required|same:PASSWORD',
         ];
 
         try {
             self::validateAndGetErrors($values, $rules);
             return true;
         } catch (\Exception $e) {
-            LogHandler::handle(self::$logName, 'User registration validation failed');
+            LogHandler::handle(self::$logName, 'User registration validation failed: ' . $e->getMessage());
             throw new \Exception('User registration validation failed', 400);
         }
     }

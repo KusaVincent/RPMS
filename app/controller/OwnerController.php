@@ -3,29 +3,28 @@
 namespace App\Controller;
 
 use App\Model\OwnerModel;
-use App\Security\Encryption;
-use App\Security\PasswordManager;
-use App\Util\IdGenerator;
+use App\Util\{IdGenerator, PhoneNumber};
+use App\Security\{CustomValidation, Encryption, PasswordManager};
 
 class OwnerController {
     public static function signUp(array $ownerData) 
     {
-        $ownerValues = array();
         $id = IdGenerator::create('OWNER');
 
-        $email    = $ownerData['EMAIL'];
-        $password = new PasswordManager($id);
+        $password  = new PasswordManager($id);
+        CustomValidation::validateOwnerRegistration($ownerData);
 
-        unset($ownerData['EMAIL']);
+        $ownerValues = array();
+
+        $ownerValues['ID']           = $id;
+
+        unset($ownerData['CONFIRM_PASSWORD']);
 
         foreach ($ownerData as $key => $value)
         {
             if($key == 'PASSWORD') $ownerValues['PASSWORD'] = $password->hashPassword($value);
-            if($key !== 'PASSWORD') $ownerValues[$key] = Encryption::salt($id)->encrypt($value);
+            if($key !== 'PASSWORD') $ownerValues[$key] = $value;
         }
-
-        $ownerValues['ID']    = $id;
-        $ownerValues['EMAIL'] = $email;
 
         return OwnerModel::create($ownerValues);
     }
@@ -42,7 +41,13 @@ class OwnerController {
         ];
     }
 
-    public static function login (array $ownerData) 
+    public static function modify(string $id, array $updateData)
+    {
+        // CustomValidation::validateOwnerRegistration($updateData);
+        return OwnerModel::update($id, $updateData);
+    }
+
+    public static function login(array $ownerData) 
     {
         
         $getOwner = OwnerModel::login($ownerData['EMAIL']);

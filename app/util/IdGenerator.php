@@ -3,6 +3,7 @@
 namespace App\Util;
 
 use App\Model\IdGeneratorModel;
+use App\Security\ImmutableVariable;
 
 class IdGenerator {
     private static array $tablePrefixes = [
@@ -22,7 +23,7 @@ class IdGenerator {
         $tablePrefix = self::$tablePrefixes[$tableName];
         $combination = $tablePrefix . $dateToday;
 
-        if($idCut !== $combination) return $combination . 'AAAAAAA';
+        if($idCut !== $combination) return $combination . ImmutableVariable::getValue('idString');
 
         return self::incrementString($lastId);
     }
