@@ -12,6 +12,6 @@ class ImmutableModel {
         
         $columnValue = $columnValue[0];
         
-        return $columnValue['VALUE'];
+        return $columnValue['VALUE'] ?? '';
     }
 }

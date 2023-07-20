@@ -11,6 +11,7 @@
             "App\\Report\\": "app/report/",
             "App\\Payment\\": "app/payment/",
             "App\\Security\\": "app/security/",
+            "App\\Controller\\": "app/controller/",
             "App\\Notification\\": "app/notification/"
         }
     },
