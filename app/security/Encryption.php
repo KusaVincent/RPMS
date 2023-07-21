@@ -56,8 +56,8 @@ class Encryption
 
     private function getKeyAndIV(): array
     {
-        $key = hash('sha256', $this->extraKey . '-' . $this->getVarSalt);
-        $iv = random_bytes(12);
+        $key    = hash('sha256', $this->extraKey . '-' . $this->getVarSalt);
+        $iv     = substr(hash('sha256', $this->getVarSalt . '+-_-+' . $this->extraKey), 0, $this->ivLength);
         return [$key, $iv];
     }
 

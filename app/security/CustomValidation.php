@@ -33,54 +33,50 @@ class CustomValidation
         return true;
     }
 
-    public static function validateOwnerRegistration(array $values) : bool
-    {        
-        $email    = $values['EMAIL'];
-        $domain   = substr($email, strpos($email, '@') + 1);
-        $phone    = PhoneNumber::format($values['PHONE_NUMBER']);
-
-        if(!$phone) throw new \Exception('Enter a valid phone number');
-        if(!checkdnsrr($domain, 'MX')) throw new \Exception('Enter a valid email');
-        if(ValidationModel::email($email, 'OWNER'))  throw new \Exception('Email is not unique');
-        if(ValidationModel::phone($phone, 'OWNER'))  throw new \Exception('Phone number is not unique');
-        if(ValidationModel::idNumber($values['ID_NUMBER'], 'OWNER'))  throw new \Exception('ID number is not unique');
+    public static function validateOwnerRegistration(array $values) : array
+    {
+        [$email, $phone, $idNumber] = self::repetitiveValues('OWNER', $values['EMAIL'], $values['PHONE_NUMBER'], $values['ID_NUMBER']);
 
         $rules = [
             'LAST_NAME'        => 'required',
             'FIRST_NAME'       => 'required',
             'PASSWORD'         => 'required|min:6',
             'EMAIL'            => 'required|email',
-            'ID_NUMBER'        => 'required|numeric',
             'PHONE_NUMBER'     => 'required|numeric',
+            'ID_NUMBER'        => 'required|numeric|min:8',
             'CONFIRM_PASSWORD' => 'required|same:PASSWORD',
         ];
 
         try {
             self::validateAndGetErrors($values, $rules);
-            return true;
+            return [$email, $phone, $idNumber];
         } catch (\Exception $e) {
-            LogHandler::handle(self::$logName, 'User registration validation failed: ' . $e->getMessage());
-            throw new \Exception('User registration validation failed', 400);
+            LogHandler::handle(self::$logName, 'Registration validation failed: ' . $e->getMessage());
+            throw new \Exception('Registration validation failed', 400);
         }
     }
 
-    public static function validateContactForm(array $values) : bool
+    public static function validateOwnerUpdate(array $values, string $id) : array
     {
+        [$email, $phone, $idNumber] = self::repetitiveValues('OWNER', $values['EMAIL'], $values['PHONE_NUMBER'], $values['ID_NUMBER'], $id);
+
         $rules = [
-            'name'    => 'required',
-            'email'   => 'required|email',
-            'message' => 'required'
+            'LAST_NAME'        => 'required',
+            'FIRST_NAME'       => 'required',
+            'EMAIL'            => 'required|email',
+            'PHONE_NUMBER'     => 'required|numeric',
+            'ID_NUMBER'        => 'required|numeric|min:8',
         ];
 
         try {
             self::validateAndGetErrors($values, $rules);
-            return true;
+            return [$email, $phone, $idNumber];
         } catch (\Exception $e) {
-            LogHandler::handle(self::$logName, 'Contact form validation failed');
-            throw new \Exception('Contact form validation failed', 400);
+            LogHandler::handle(self::$logName, 'Registration validation failed: ' . $e->getMessage());
+            throw new \Exception('Registration validation failed', 400);
         }
     }
-
+    
     public static function validateDateRange(array $values) : bool
     {
         $rules = [
@@ -94,23 +90,6 @@ class CustomValidation
         } catch (\Exception $e) {
             LogHandler::handle(self::$logName, 'Date range validation failed');
             throw new \Exception('Date range validation failed', 400);
-        }
-    }
-
-    public static function validateProductCreation(array $values) : bool
-    {
-        $rules = [
-            'name'        => 'required',
-            'price'       => 'required|numeric',
-            'description' => 'required'
-        ];
-
-        try {
-            self::validateAndGetErrors($values, $rules);
-            return true;
-        } catch (\Exception $e) {
-            LogHandler::handle(self::$logName, 'Product creation validation failed');
-            throw new \Exception('Product creation validation failed', 400);
         }
     }
 
@@ -128,5 +107,22 @@ class CustomValidation
             LogHandler::handle(self::$logName, 'Login form validation failed');
             throw new \Exception('Login form validation failed', 400);
         }
+    }
+
+    private static function repetitiveValues(string $tableName, ?string $email = null, ?string $phoneNumber = null, ?string $idNumber = null, ?string $id = null) : array
+    {     
+        $phone    = PhoneNumber::format($phoneNumber);
+
+        if(!$phone) throw new \Exception('Enter a valid phone number');
+
+        $email    = Encryption::salt(ImmutableVariable::getValue('staticSalt'))->encrypt($email);
+        $phone    = Encryption::salt(ImmutableVariable::getValue('staticSalt'))->encrypt($phone);
+        $idNumber = Encryption::salt(ImmutableVariable::getValue('staticSalt'))->encrypt($idNumber);
+        
+        if(ValidationModel::email($email, $tableName, $id)) throw new \Exception('Email is not unique');
+        if(ValidationModel::phone($phone, $tableName, $id)) throw new \Exception('Phone number is not unique');
+        if(ValidationModel::idNumber($idNumber, $tableName, $id)) throw new \Exception('ID number is not unique');
+
+        return [$email, $phone, $idNumber];
     }
 }

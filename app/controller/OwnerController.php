@@ -3,27 +3,34 @@
 namespace App\Controller;
 
 use App\Model\OwnerModel;
-use App\Util\{IdGenerator, PhoneNumber};
-use App\Security\{CustomValidation, Encryption, PasswordManager};
+use App\Util\IdGenerator;
+use App\Security\{CustomValidation, Encryption, ImmutableVariable, PasswordManager};
 
 class OwnerController {
-    public static function signUp(array $ownerData) 
+    public static function signUp(array $ownerData) : int
     {
         $id = IdGenerator::create('OWNER');
 
         $password  = new PasswordManager($id);
-        CustomValidation::validateOwnerRegistration($ownerData);
 
-        $ownerValues = array();
+        [$email, $phoneNumber, $idNumber] = CustomValidation::validateOwnerRegistration($ownerData);
+
+        $ownerValues       = array();
 
         $ownerValues['ID']           = $id;
+        $ownerValues['EMAIL']        = $email;
+        $ownerValues['ID_NUMBER']    = $idNumber;
+        $ownerValues['PHONE_NUMBER'] = $phoneNumber;
 
+        unset($ownerData['EMAIL']);
+        unset($ownerData['ID_NUMBER']);
+        unset($ownerData['PHONE_NUMBER']);
         unset($ownerData['CONFIRM_PASSWORD']);
 
         foreach ($ownerData as $key => $value)
         {
-            if($key == 'PASSWORD') $ownerValues['PASSWORD'] = $password->hashPassword($value);
-            if($key !== 'PASSWORD') $ownerValues[$key] = $value;
+            if($key == 'PASSWORD')  $ownerValues['PASSWORD'] = $password->hashPassword($value);
+            if($key !== 'PASSWORD') $ownerValues[$key]       = Encryption::salt($id)->encrypt($value);
         }
 
         return OwnerModel::create($ownerValues);
@@ -41,9 +48,23 @@ class OwnerController {
         ];
     }
 
-    public static function modify(string $id, array $updateData)
+    public static function modify(string $id, array $updateData) : int
     {
-        // CustomValidation::validateOwnerRegistration($updateData);
+        [$email, $phoneNumber, $idNumber] = CustomValidation::validateOwnerUpdate($updateData, $id);
+        
+        $updateValues['EMAIL']        = $email;
+        $updateValues['ID_NUMBER']    = $idNumber;
+        $updateValues['PHONE_NUMBER'] = $phoneNumber;
+
+        unset($updateData['EMAIL']);
+        unset($updateData['ID_NUMBER']);
+        unset($updateData['PHONE_NUMBER']);
+        
+        foreach ($updateData as $key => $value)
+        {
+            $updateValues[$key] = Encryption::salt($id)->encrypt($value);
+        }
+
         return OwnerModel::update($id, $updateData);
     }
 

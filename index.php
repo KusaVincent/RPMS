@@ -23,3 +23,17 @@ SessionManager::init(
         'cookie_lifetime' => ImmutableVariable::getValueAndDecryptBeforeUse('cookieLife')
     ]
 );
+
+$array = [
+    'LAST_NAME'        => 'Okello',
+    'FIRST_NAME'       => 'Kennedy',
+    'EMAIL'            => 'vinonyi21@gmail.com',
+    'ID_NUMBER'        => '35329473',
+    'PHONE_NUMBER'     => '0798749326'
+];
+
+try{
+    echo json_encode(OwnerController::modify('OWN20230721AAAC', $array));
+} catch (Exception $e) {
+    echo json_encode($e->getMessage());
+}

@@ -16,14 +16,15 @@ class IdGenerator {
 
     public static function create(string $tableName) : string
     {
-        $lastId = self::getLastId($tableName);
+        $lastId     = self::getLastId($tableName);
+        $idString   = ImmutableVariable::getValue('idString');
         
         $dateToday   = date('Ymd');
-        $idCut       = substr($lastId, 0, -7);
+        $idCut       = substr($lastId, 0, -strlen($idString));
         $tablePrefix = self::$tablePrefixes[$tableName];
         $combination = $tablePrefix . $dateToday;
 
-        if($idCut !== $combination) return $combination . ImmutableVariable::getValue('idString');
+        if($idCut !== $combination) return $combination . $idString;
 
         return self::incrementString($lastId);
     }
