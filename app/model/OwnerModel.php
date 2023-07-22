@@ -5,22 +5,34 @@ namespace App\Model;
 class OwnerModel {
     private static string $tableName = 'OWNER';
 
-    public static function create(array $ownerValues) : bool | int
+    public static function create(array $ownerValues) : int
     {
-        return DatabaseManager::executeInsert(self::$tableName, $ownerValues);
+        $result = DatabaseManager::executeInsert(self::$tableName, $ownerValues);
+        if(gettype($result) === 'boolean') throw new \Exception('Insert Unsuccessful');
+        return $result;
+    }
+
+    public static function update(string $id, array $ownerValues) : int
+    {
+        $result = DatabaseManager::executeUpdate(self::$tableName, $ownerValues, ['ID' => $id]);
+        if(gettype($result) === 'boolean') throw new \Exception('Update Unsuccessful');
+        return $result;
     }
 
     public static function get(string $id) : array
     {
         $tableName = self::$tableName;
 
-        $ownerData = DatabaseManager::executeSelect("SELECT FIRST_NAME, LAST_NAME, EMAIL, ID_NUMBER, PASSWORD, PHONE_NUMBER FROM $tableName WHERE ID = ?", [$id]);
+        [$sql, $param] = self::query($tableName, 'ID', $id);
+
+        $ownerData = DatabaseManager::executeSelect($sql, $param);
         
+        if(!isset($ownerData[0])) throw new \Exception('Record not found');
+
         $ownerData = $ownerData[0];
 
         return [
             'EMAIL'         => $ownerData['EMAIL'],
-            'PASSWORD'      => $ownerData['PASSWORD'],
             'ID_NUMBER'     => $ownerData['ID_NUMBER'],
             'LAST_NAME'     => $ownerData['LAST_NAME'],
             'FIRST_NAME'    => $ownerData['FIRST_NAME'],
@@ -32,7 +44,11 @@ class OwnerModel {
     {
         $tableName = self::$tableName;
 
-        $ownerData = DatabaseManager::executeSelect("SELECT ID, FIRST_NAME, LAST_NAME, EMAIL, ID_NUMBER, PASSWORD, PHONE_NUMBER FROM $tableName");
+        [$sql, $param] = self::query($tableName, id:true);
+
+        $ownerData = DatabaseManager::executeSelect($sql, $param);
+        
+        if(gettype($ownerData) === 'boolean') throw new \Exception('Record fetching error');
         
         return $ownerData;
     }
@@ -41,9 +57,11 @@ class OwnerModel {
     {
         $tableName = self::$tableName;
 
-        $ownerData = DatabaseManager::executeSelect("SELECT ID, FIRST_NAME, LAST_NAME, EMAIL, ID_NUMBER, PASSWORD, PHONE_NUMBER FROM $tableName WHERE EMAIL = ?", [$email]);
+        [$sql, $param] = self::query($tableName, 'EMAIL', $email, true, true);
+
+        $ownerData = DatabaseManager::executeSelect($sql, $param);
         
-        if(!isset($ownerData[0])) return [];
+        if(!isset($ownerData[0])) throw new \Exception('Wrong credentials passed');
 
         $ownerData = $ownerData[0];
 
@@ -58,8 +76,26 @@ class OwnerModel {
         ];
     }
 
-    public static function update(string $id, array $ownerValues)
+    private static function query(string $tableName, ?string $whereColumn = null, ?string $columnValue = null, bool $id = false, bool $login = false) : array
     {
-        return DatabaseManager::executeUpdate("OWNER", $ownerValues, ['ID' => $id]);
+        $column = "FIRST_NAME, LAST_NAME, EMAIL, ID_NUMBER, PHONE_NUMBER";
+
+        if($id) $column .= ', ID';
+        if($login) $column .= ', PASSWORD';
+
+        $sql = "
+            SELECT 
+                $column 
+            FROM 
+                $tableName
+            WHERE
+                OWNER_STATUS = ?
+        ";
+
+        if($whereColumn !== null) $sql .= " AND $whereColumn = ?";
+
+        $sqlParam  = $whereColumn !== null ? ['active', $columnValue]: ['active'];
+
+        return [$sql, $sqlParam];
     }
 }

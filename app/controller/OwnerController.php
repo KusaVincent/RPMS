@@ -99,22 +99,21 @@ class OwnerController {
     public static function login(array $ownerData) 
     {
         
-        $getOwner = OwnerModel::login($ownerData['EMAIL']);
-
-        if(empty($getOwner)) return "Wrong credentials passed";
+        $getOwner = OwnerModel::login(
+            Encryption::salt(ImmutableVariable::getValue('staticSalt'))->encrypt($ownerData['EMAIL'])
+        );
 
         $pass = new PasswordManager($getOwner['ID']);
 
-        if(!$pass->verifyPassword($ownerData['PASSWORD'], $getOwner['PASSWORD']))
-        {
-            return "Wrong credentials passed";
-        }
+        if(!$pass->verifyPassword($ownerData['PASSWORD'], $getOwner['PASSWORD'])) throw new \Exception('Wrong credentials passed');
 
         return [
-            'EMAIL'      => $getOwner['EMAIL'],
-            'ID_NUMBER'  => Encryption::salt($getOwner['ID'])->decrypt($getOwner['ID_NUMBER']),
-            'LAST_NAME'  => Encryption::salt($getOwner['ID'])->decrypt($getOwner['LAST_NAME']),
-            'FIRST_NAME' => Encryption::salt($getOwner['ID'])->decrypt($getOwner['FIRST_NAME'])
+            'ID'            => $getOwner['ID'],
+            'EMAIL'         => $ownerData['EMAIL'],
+            'LAST_NAME'     => Encryption::salt($getOwner['ID'])->decrypt($getOwner['LAST_NAME']),
+            'FIRST_NAME'    => Encryption::salt($getOwner['ID'])->decrypt($getOwner['FIRST_NAME']),
+            'ID_NUMBER'     => Encryption::salt(ImmutableVariable::getValue('staticSalt'))->decrypt($getOwner['ID_NUMBER']),
+            'PHONE_NUMBER'  => Encryption::salt(ImmutableVariable::getValue('staticSalt'))->decrypt($getOwner['PHONE_NUMBER'])
         ];
     }
 }
