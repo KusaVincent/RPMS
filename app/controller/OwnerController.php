@@ -36,16 +36,44 @@ class OwnerController {
         return OwnerModel::create($ownerValues);
     }
 
-    public static function getData(string $id) : array
+    public static function getRecord(string $id) : array
     {
         $getOwner = OwnerModel::get($id);
 
         return [
-            'EMAIL'      => $getOwner['EMAIL'],
-            'ID_NUMBER'  => Encryption::salt($id)->decrypt($getOwner['ID_NUMBER']),
-            'LAST_NAME'  => Encryption::salt($id)->decrypt($getOwner['LAST_NAME']),
-            'FIRST_NAME' => Encryption::salt($id)->decrypt($getOwner['FIRST_NAME'])
+            'LAST_NAME'     => Encryption::salt($id)->decrypt($getOwner['LAST_NAME']),
+            'FIRST_NAME'    => Encryption::salt($id)->decrypt($getOwner['FIRST_NAME']),
+            'EMAIL'         => Encryption::salt(ImmutableVariable::getValue('staticSalt'))->decrypt($getOwner['EMAIL']),
+            'ID_NUMBER'     => Encryption::salt(ImmutableVariable::getValue('staticSalt'))->decrypt($getOwner['ID_NUMBER']),
+            'PHONE_NUMBER'  => Encryption::salt(ImmutableVariable::getValue('staticSalt'))->decrypt($getOwner['PHONE_NUMBER'])
         ];
+    }
+
+    public static function getAllRecords() : array
+    {
+        $owners = OwnerModel::getAll();
+        $ownerDataInside = $ownerData  = array();
+
+        if (!empty($owners))
+        {
+            foreach($owners as $owner)
+            {
+                $id = $ownerData['ID_'] = $owner['ID'];
+
+                if(isset($id)) {
+                    if($owner['LAST_NAME'])  $ownerData['LAST_NAME']  = Encryption::salt($id)->decrypt($owner['LAST_NAME']);
+                    if($owner['FIRST_NAME']) $ownerData['FIRST_NAME'] = Encryption::salt($id)->decrypt($owner['FIRST_NAME']);
+                }
+                
+                $ownerData['EMAIL']        = Encryption::salt(ImmutableVariable::getValue('staticSalt'))->decrypt($owner['EMAIL']);
+                $ownerData['ID_NUMBER']    = Encryption::salt(ImmutableVariable::getValue('staticSalt'))->decrypt($owner['ID_NUMBER']);
+                $ownerData['PHONE_NUMBER'] = Encryption::salt(ImmutableVariable::getValue('staticSalt'))->decrypt($owner['PHONE_NUMBER']);
+
+                $ownerDataInside[$id] = $ownerData;
+            }
+        }
+
+        return $ownerDataInside;
     }
 
     public static function modify(string $id, array $updateData) : int

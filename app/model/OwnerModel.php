@@ -28,6 +28,15 @@ class OwnerModel {
         ];
     }
 
+    public static function getAll() : array
+    {
+        $tableName = self::$tableName;
+
+        $ownerData = DatabaseManager::executeSelect("SELECT ID, FIRST_NAME, LAST_NAME, EMAIL, ID_NUMBER, PASSWORD, PHONE_NUMBER FROM $tableName");
+        
+        return $ownerData;
+    }
+
     public static function login(string $email) : array
     {
         $tableName = self::$tableName;

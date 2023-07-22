@@ -19,7 +19,7 @@ class IdGenerator {
         $lastId     = self::getLastId($tableName);
         $idString   = ImmutableVariable::getValue('idString');
         
-        $dateToday   = date('Ymd');
+        $dateToday   = date('ymd');
         $idCut       = substr($lastId, 0, -strlen($idString));
         $tablePrefix = self::$tablePrefixes[$tableName];
         $combination = $tablePrefix . $dateToday;
