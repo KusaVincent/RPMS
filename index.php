@@ -30,11 +30,16 @@ $array = [
     'PASSWORD' => '123567'
 ];
 
+$array = [
+    'LAST_NAME'        => 'Okello',
+    'FIRST_NAME'       => 'Kennedy',
+    'EMAIL'            => 'vinonyi21@gmail.com',
+    'ID_NUMBER'        => '35319473',
+    'PHONE_NUMBER'     => '0798719326'
+];
+
 try{
-    echo json_encode(
-        OwnerController::getRecord('OWN230722AAAA')
-    );
-}catch(Exception $e)
-{
+    echo json_encode(OwnerController::modify('OWN230722AAAA', $array));
+} catch (Exception $e) {
     echo json_encode($e->getMessage());
 }
